@@ -1,7 +1,6 @@
 import ReactMarkdown from 'react-markdown'
-import Head from 'next/head'
 import { getArticleDetail } from '../../api/article.api'
-import style from './style.less'
+import style from './[id].less'
 
 interface BlogProps {
   blog: {
@@ -12,11 +11,8 @@ interface BlogProps {
 function Blog(props: BlogProps) {
   const { markdown } = props.blog
   return (
-    <div className={style.blog}>
-      {/* <Head>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-      </Head> */}
-      <ReactMarkdown source={markdown}></ReactMarkdown>
+    <div className={`${style.blog} shadow`}>
+      <ReactMarkdown className="markdown-style" source={markdown}></ReactMarkdown>
     </div>
   )
 }
