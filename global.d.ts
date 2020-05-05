@@ -4,3 +4,8 @@ declare module '*.less' {
   }
   export default style
 }
+
+declare module '*.jpg' {
+  const path: string
+  export default path
+}

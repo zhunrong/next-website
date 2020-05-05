@@ -13,6 +13,7 @@
   "dependencies": {
     "@types/node": "^13.13.4",
     "@types/react": "^16.9.34",
+    "antd": "^4.2.0",
     "axios": "^0.19.2",
     "next": "^9.3.6",
     "react": "^16.13.1",
@@ -22,6 +23,8 @@
   },
   "devDependencies": {
     "@zeit/next-less": "^1.0.1",
-    "less": "^3.11.1"
+    "file-loader": "^6.0.0",
+    "less": "^3.11.1",
+    "url-loader": "^4.1.0"
   }
 }

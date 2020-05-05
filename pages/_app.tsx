@@ -1,5 +1,6 @@
 import { AppProps } from 'next/app'
 import '../assets/styles/index.less'
+import 'antd/dist/antd.css'
 
 function MyApp({ Component, pageProps }: AppProps) {
   return <Component {...pageProps} />
