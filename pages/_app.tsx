@@ -1,5 +1,5 @@
 import { AppProps } from 'next/app'
-import '../assets/styles/index.less'
+import '../assets/styles/index.scss'
 import 'antd/dist/antd.css'
 
 function MyApp({ Component, pageProps }: AppProps) {

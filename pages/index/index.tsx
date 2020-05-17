@@ -1,9 +1,10 @@
 import Link from 'next/link'
 import { useEffect, useRef } from 'react'
-import style from './index.less'
+import style from './index.module.scss'
 import { getAllArticles } from '../../api/article.api'
 import { publicPath } from '../../utils'
 import { Carousel } from 'antd'
+// import 'antd/dist/antd.css'
 
 // const banner1 = require('../../images/banner_1.jpg').default
 // import banner1 from '../../images/banner_1.jpg'
@@ -37,7 +38,7 @@ BlogList.getInitialProps = async function () {
   const { data, status } = await getAllArticles(10, 1)
   return {
     data,
-    status
+    status:0
   }
 }
 

@@ -1,7 +1,7 @@
 const withLess = require('@zeit/next-less')
 const MiniCssExtractPlugin = require("mini-css-extract-plugin")
 const isProd = process.env.NODE_ENV === 'production'
-const PROXY_PREFIX = '/proxy'
+const PROXY_PREFIX = ''
 
 module.exports = withLess({
   assetPrefix: isProd ? PROXY_PREFIX : PROXY_PREFIX,

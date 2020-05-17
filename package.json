@@ -1,20 +1,22 @@
 {
   "name": "next-website",
-  "version": "1.0.0",
-  "description": "",
+  "version": "0.1.0",
+  "description": "A website based on next.js",
   "main": "index.js",
   "scripts": {
-    "dev": "next",
+    "dev": "node server.js",
     "build": "next build",
-    "start": "next start"
+    "start": "cross-env NODE_ENV=production node server.js"
   },
-  "author": "",
+  "author": "chenzhunrong",
   "license": "ISC",
   "dependencies": {
     "@types/node": "^13.13.4",
     "@types/react": "^16.9.34",
     "antd": "^4.2.0",
     "axios": "^0.19.2",
+    "express": "^4.17.1",
+    "http-proxy-middleware": "^1.0.3",
     "next": "^9.3.6",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
@@ -22,9 +24,9 @@
     "typescript": "^3.8.3"
   },
   "devDependencies": {
-    "@zeit/next-less": "^1.0.1",
+    "cross-env": "^7.0.2",
     "file-loader": "^6.0.0",
-    "less": "^3.11.1",
-    "url-loader": "^4.1.0"
+    "url-loader": "^4.1.0",
+    "sass": "^1.26.5"
   }
 }

@@ -1,6 +1,6 @@
 import ReactMarkdown from 'react-markdown'
 import { getArticleDetail } from '../../api/article.api'
-import style from './[id].less'
+import style from './[id].module.scss'
 
 interface BlogProps {
   blog: {
