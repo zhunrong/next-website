@@ -4,11 +4,6 @@ import style from './index.module.scss'
 import { getAllArticles } from '../../api/article.api'
 import { publicPath } from '../../utils'
 import { Carousel } from 'antd'
-// import 'antd/dist/antd.css'
-
-// const banner1 = require('../../images/banner_1.jpg').default
-// import banner1 from '../../images/banner_1.jpg'
-// console.log(banner1)
 
 interface Props {
   status: string

@@ -11,10 +11,13 @@
   "author": "chenzhunrong",
   "license": "ISC",
   "dependencies": {
+    "@ant-design/icons": "^4.1.0",
+    "@types/draft-js": "^0.10.40",
     "@types/node": "^13.13.4",
     "@types/react": "^16.9.34",
     "antd": "^4.2.0",
     "axios": "^0.19.2",
+    "draft-js": "^0.11.5",
     "express": "^4.17.1",
     "http-proxy-middleware": "^1.0.3",
     "next": "^9.3.6",
@@ -26,7 +29,7 @@
   "devDependencies": {
     "cross-env": "^7.0.2",
     "file-loader": "^6.0.0",
-    "url-loader": "^4.1.0",
-    "sass": "^1.26.5"
+    "sass": "^1.26.5",
+    "url-loader": "^4.1.0"
   }
 }

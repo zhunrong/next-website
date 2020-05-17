@@ -1,6 +1,7 @@
 import { AppProps } from 'next/app'
 import '../assets/styles/index.scss'
 import 'antd/dist/antd.css'
+import 'draft-js/dist/Draft.css'
 
 function MyApp({ Component, pageProps }: AppProps) {
   return <Component {...pageProps} />
