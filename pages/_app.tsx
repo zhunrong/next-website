@@ -1,10 +1,13 @@
-import { AppProps } from 'next/app'
-import '../assets/styles/index.scss'
-import 'antd/dist/antd.css'
-import 'draft-js/dist/Draft.css'
+import React from "react";
+import { AppProps } from "next/app";
+import "../assets/styles/index.scss";
+import "antd/dist/antd.css";
+// import 'draft-js/dist/Draft.css'
+import "braft-editor/dist/index.css";
+import "braft-editor/dist/output.css";
 
 function MyApp({ Component, pageProps }: AppProps) {
-  return <Component {...pageProps} />
+  return <Component {...pageProps} />;
 }
 
 // Only uncomment this method if you have blocking data requirements for
@@ -19,4 +22,4 @@ function MyApp({ Component, pageProps }: AppProps) {
 //   return { ...appProps }
 // }
 
-export default MyApp
+export default MyApp;

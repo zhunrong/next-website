@@ -3,4 +3,21 @@
   height: 100vh;
   margin: 0 auto;
   background-color: #fff;
+  display: flex;
+  flex-direction: column;
+  :global {
+    .editor-container {
+      flex: 1;
+    }
+    .bf-container {
+      display: flex;
+      flex-direction: column;
+      .editor-btn {
+        padding: 0;
+      }
+      .bf-content {
+        flex: 1;
+      }
+    }
+  }
 }
