@@ -1,4 +1,4 @@
-import http from '../utils/http'
+import http from '../utils/http';
 /**
  * 获取所有文章
  */
@@ -7,9 +7,9 @@ export function getAllArticles(pageSize: number, page: number) {
     url: '/allArticle',
     params: {
       pageSize,
-      page
-    }
-  })
+      page,
+    },
+  });
 }
 
 /**
@@ -18,6 +18,6 @@ export function getAllArticles(pageSize: number, page: number) {
  */
 export function getArticleDetail(id: string) {
   return http({
-    url: `/article/${id}`
-  })
+    url: `/article/${id}`,
+  });
 }
