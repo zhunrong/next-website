@@ -1,41 +1,49 @@
-import Link from 'next/link'
-import { useEffect, useRef } from 'react'
-import style from './index.module.scss'
-import { getAllArticles } from '../../api/article.api'
-import { publicPath } from '../../utils'
-import { Carousel } from 'antd'
+import React from 'react';
+import Link from 'next/link';
+import { useEffect, useRef } from 'react';
+import style from './index.module.scss';
+// import { getAllArticles } from '../../api/article.api';
+import { publicPath } from '../../utils';
+import { Carousel } from 'antd';
+import Header from '@/modules/header';
 
 interface Props {
-  status: string
-  data: any[]
+  status: string;
+  data: any[];
 }
 /**
  * 博客列表页面
- * @param props 
+ * @param props
  */
 function BlogList(props: Props) {
-  const { data } = props
+  const { data } = props;
   return (
     <div className={style['blog-list']}>
+      <Header />
       <BlogBanner />
       <ol>
-        {
-          data.map(item => {
-            return <BlogItem {...item} key={item.id} />
-          })
-        }
+        {data.map((item) => {
+          return <BlogItem {...item} key={item.id} />;
+        })}
       </ol>
     </div>
-  )
+  );
 }
 
 BlogList.getInitialProps = async function () {
-  const { data, status } = await getAllArticles(10, 1)
+  // const { data, status } = await getAllArticles(10, 1);
+  const data = [
+    {
+      id: 'sdf',
+      title: '文章标题',
+      updateTime: '2018-12-12',
+    },
+  ];
   return {
     data,
-    status:0
-  }
-}
+    status: 0,
+  };
+};
 
 function BlogBanner() {
   return (
@@ -55,42 +63,62 @@ function BlogBanner() {
         </div>
       </Carousel>
     </div>
-  )
+  );
 }
 
 function ReactiveImage(props: { src: string }) {
-  const { src } = props
-  const ref = useRef<HTMLImageElement>()
+  const { src } = props;
+  const ref = useRef<HTMLImageElement>();
   useEffect(() => {
     // console.log(ref.current)
-    const el = ref.current
+    const el = ref.current;
     const onload = () => {
-      const { naturalHeight, naturalWidth } = el
-      if (naturalHeight === 0) return
-      const { offsetWidth, offsetHeight } = el.parentElement
-      el.style.transform = `translate(-50%,-50%) scale(${Math.max(offsetWidth / naturalWidth, offsetHeight / naturalHeight)})`
-      el.style.visibility = 'visible'
-    }
-    onload()
-    el.addEventListener('load', onload)
+      const { naturalHeight, naturalWidth } = el;
+      if (naturalHeight === 0) return;
+      const { offsetWidth, offsetHeight } = el.parentElement;
+      el.style.transform = `translate(-50%,-50%) scale(${Math.max(
+        offsetWidth / naturalWidth,
+        offsetHeight / naturalHeight
+      )})`;
+      el.style.visibility = 'visible';
+    };
+    onload();
+    el.addEventListener('load', onload);
     return () => {
-      el.removeEventListener('load', onload)
-    }
-  })
+      el.removeEventListener('load', onload);
+    };
+  });
   return (
-    <div style={{ width: '100%', height: '100%', overflow: 'hidden', position: 'relative' }}>
-      <img ref={ref} src={src} style={{ display: 'block', position: 'absolute', visibility: 'hidden', left: '50%', top: '50%' }} />
+    <div
+      style={{
+        width: '100%',
+        height: '100%',
+        overflow: 'hidden',
+        position: 'relative',
+      }}
+    >
+      <img
+        ref={ref}
+        src={src}
+        style={{
+          display: 'block',
+          position: 'absolute',
+          visibility: 'hidden',
+          left: '50%',
+          top: '50%',
+        }}
+      />
     </div>
-  )
+  );
 }
 
 interface BlogItemProps {
-  id: string
-  title: string
-  updateTime: string
+  id: string;
+  title: string;
+  updateTime: string;
 }
 function BlogItem(props: BlogItemProps) {
-  const { title, id, updateTime } = props
+  const { title, id, updateTime } = props;
   return (
     <li className={`${style['blog-item']} shadow`}>
       <Link href="/blog/[id]" as={`/blog/${id}`} prefetch={false}>
@@ -102,7 +130,7 @@ function BlogItem(props: BlogItemProps) {
         </a>
       </Link>
     </li>
-  )
+  );
 }
 
-export default BlogList
+export default BlogList;

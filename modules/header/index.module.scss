@@ -1,0 +1,29 @@
+.header {
+  height: 50px;
+  background: #fff;
+  margin-bottom: 15px;
+  position: relative;
+  :global {
+    .header-avatar {
+      position: absolute;
+      right: 15px;
+      top: 9px;
+    }
+  }
+}
+
+.header-actions {
+  margin-bottom: 0;
+  li {
+    cursor: pointer;
+    padding: 0 10px;
+    line-height: 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    &:hover {
+      background: #f8f8f8;
+      color: rgb(70, 200, 240);
+    }
+  }
+}
