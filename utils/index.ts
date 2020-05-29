@@ -1,3 +1,3 @@
 export function publicPath(path: string) {
-  return (process.env.PROXY_PREFIX || '') + path
+  return (process.env.PROXY_PREFIX || '') + path;
 }
