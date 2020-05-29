@@ -1,35 +1,33 @@
 import React from 'react';
-import ReactMarkdown from 'react-markdown';
-// import { getArticleDetail } from '../../api/article.api';
 import style from './[id].module.scss';
 
 interface BlogProps {
   blog: {
-    markdown: string;
+    html: string;
   };
   status: string;
 }
 function Blog(props: BlogProps) {
-  const { markdown } = props.blog;
+  const { html } = props.blog;
   return (
     <div className={`${style.blog} shadow`}>
-      <ReactMarkdown
-        className="markdown-style"
-        source={markdown}
-      ></ReactMarkdown>
+      <div
+        className="document"
+        dangerouslySetInnerHTML={{ __html: html }}
+      ></div>
     </div>
   );
 }
 
-Blog.getInitialProps = async function (context: any) {
+Blog.getInitialProps = async function (context: any): Promise<BlogProps> {
   // const id = context.query.id
   // const { status, data } = await getArticleDetail(id)
-  const data = {
-    markdown: '# 123',
-  };
+  // const blog = getFromLocal('123');
   return {
-    blog: data,
-    status: 0,
+    blog: {
+      html: '<h1>nginx</h1><h2>标题二</h2><h3>标题三</h3><p>这是正文</p>',
+    },
+    status: 'success',
   };
 };
 
