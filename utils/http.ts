@@ -7,7 +7,7 @@ const _axios: AxiosInstance = axios.create({
     Pragma: 'no-cache',
   },
   withCredentials: true,
-  baseURL: 'http://localhost:3000/api',
+  baseURL: '/api',
 });
 
 _axios.interceptors.request.use((config) => {
