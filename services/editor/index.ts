@@ -20,6 +20,6 @@ export function saveToLocal(id: string, raw: string, html: string) {
  * @param id
  */
 export function getFromLocal(id: string) {
-  const str = sessionStorage.getItem(id);
-  return str ? JSON.parse(str) : { html: '' };
+  const content = sessionStorage.getItem(id);
+  return content ? JSON.parse(content) : { html: '' };
 }

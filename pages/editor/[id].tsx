@@ -1,21 +1,18 @@
 import React from 'react';
 import { useState, Props } from 'react';
 import dynamic from 'next/dynamic';
-import { NextPageContext } from 'next';
+import { GetServerSideProps, NextPage } from 'next';
 import { useRouter } from 'next/router';
 import style from './index.module.scss';
 import { SaveOutlined, LoadingOutlined } from '@ant-design/icons';
 import { isEditorState } from '@/utils/is';
 import { ExtendControlType, EditorState } from 'braft-editor';
 import { RawDraftContentState, RawDraftContentBlock } from 'draft-js';
-import { saveToLocal } from '@/services/editor';
+import * as API from '@/api/article.api';
 
 const BraftEditor = dynamic(() => import('@/components/braftEditor'), {
   ssr: false,
 });
-
-const initRaw =
-  '{"blocks":[{"key":"ak1dq","text":"nginx入门指南","type":"header-one","depth":0,"inlineStyleRanges":[],"entityRanges":[],"data":{}}],"entityMap":{}}';
 
 interface EditorViewProps {
   initRaw: string;
@@ -24,36 +21,29 @@ interface EditorViewProps {
 /**
  * 编辑页面
  */
-function EditorView(props: EditorViewProps) {
+const EditorView: NextPage<EditorViewProps> = (props) => {
   const { initRaw } = props;
   const [editorState, setEditorState] = useState(null);
   const [syncState, setSyncState] = useState(false);
   const router = useRouter();
   const id = router.query.id as string;
-  // const [id, setId] = useState('');
-  // useEffect(() => {
-  //   if (typeof router.query.id === 'string') {
-  //     setId(router.query.id);
-  //   }
-  //   console.log('useEffect', id);
-  // });
-  if (isEditorState(editorState)) {
-    const raw = editorState.toRAW(true) as RawDraftContentState;
-    console.log('raw', raw);
-    if (raw.blocks.length) {
-      console.log('title', raw.blocks[0].text);
-    }
-  }
-  console.log('render', router.query.id);
   /**
    * 同步到远程
    */
-  const synchronize = () => {
+  const synchronize = async () => {
     setSyncState(true);
     if (isEditorState(editorState)) {
-      const raw = editorState.toRAW() as string;
+      const raw = editorState.toRAW(true) as RawDraftContentState;
       const html = editorState.toHTML();
-      saveToLocal(id, raw, html);
+      const [, data] = await API.updateDraft({
+        id,
+        title: raw.blocks[0]?.text || '',
+        raw: JSON.stringify(raw),
+        html,
+      });
+      if (data?.status === 'success') {
+        console.log('保存成功');
+      }
     }
     setSyncState(false);
   };
@@ -87,12 +77,26 @@ function EditorView(props: EditorViewProps) {
       </div>
     </div>
   );
-}
+};
 
-EditorView.getInitialProps = function (ctx: NextPageContext) {
-  console.log('文档id', ctx.query.id);
+/**
+ * 服务端获取数据
+ * @param ctx
+ */
+export const getServerSideProps: GetServerSideProps<EditorViewProps> = async (
+  ctx
+) => {
+  const id = ctx.query.id as string;
+  const cookie = ctx.req.headers.cookie;
+  const [, data] = await API.getDraft(id, cookie);
+  let initRaw = '';
+  if (data.status === 'success') {
+    initRaw = data.data.raw;
+  }
   return {
-    initRaw,
+    props: {
+      initRaw,
+    },
   };
 };
 

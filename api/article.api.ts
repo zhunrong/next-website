@@ -21,3 +21,44 @@ export function getArticleDetail(id: string) {
     url: `/article/${id}`,
   });
 }
+
+/**
+ * 创建草稿
+ */
+export function createDraft() {
+  return http<Data<DraftEntity>>({
+    url: '/draft/create',
+    method: 'post',
+  });
+}
+
+/**
+ * 获取草稿
+ * @param id
+ */
+export function getDraft(id: string, cookie?: string) {
+  return http<Data<DraftEntity>>({
+    url: `/draft/${id}`,
+    headers: {
+      Cookie: cookie,
+    },
+  });
+}
+
+interface UpdateDraftParams {
+  id: string;
+  title: string;
+  html: string;
+  raw: string;
+}
+/**
+ * 更新草稿
+ * @param data
+ */
+export function updateDraft(data: UpdateDraftParams) {
+  return http({
+    url: '/draft/update',
+    method: 'post',
+    data,
+  });
+}
