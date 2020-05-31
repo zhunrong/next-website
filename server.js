@@ -13,7 +13,7 @@ app.prepare().then(() => {
   server.use(
     '/api',
     createProxyMiddleware({
-      target: 'http://localhost',
+      target: process.env.PROXY_TARGET || 'http://localhost:8888',
       pathRewrite: {
         '/api': '/',
       },
