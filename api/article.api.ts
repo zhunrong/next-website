@@ -45,6 +45,15 @@ export function getDraft(id: string, cookie?: string) {
   });
 }
 
+/**
+ * 获取用户的草稿列表
+ */
+export function getDraftList() {
+  return http<Data<DraftEntity[]>>({
+    url: '/draft/list',
+  });
+}
+
 interface UpdateDraftParams {
   id: string;
   title: string;

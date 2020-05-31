@@ -12,3 +12,14 @@ interface DraftEntity {
   createAt: string;
   updateAt: string;
 }
+
+interface UserEntity {
+  avatar: string;
+  email: string;
+  nickname: string;
+  password: string;
+  role: number;
+  id: string;
+  createAt: string;
+  updateAt: string;
+}

@@ -1,0 +1,11 @@
+.user {
+  max-width: 1120px;
+  min-height: 100vh;
+  margin: 0 auto;
+  :global {
+    .user-main {
+      padding: 15px;
+      background: #fff;
+    }
+  }
+}
