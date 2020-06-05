@@ -1,23 +1,11 @@
 import http from '../utils/http';
-/**
- * 获取所有文章
- */
-export function getAllArticles(pageSize: number, page: number) {
-  return http({
-    url: '/allArticle',
-    params: {
-      pageSize,
-      page,
-    },
-  });
-}
 
 /**
  * 获取文章详情
  * @param id
  */
 export function getArticleDetail(id: string) {
-  return http({
+  return http<Data<BlogEntity>>({
     url: `/article/${id}`,
   });
 }
@@ -54,6 +42,24 @@ export function getDraftList() {
   });
 }
 
+/**
+ * 获取所有博客
+ */
+export function getBlogList() {
+  return http<Data<BlogEntity[]>>({
+    url: '/article/all',
+  });
+}
+
+/**
+ * 获取用户的博客
+ */
+export function getUserBlogList() {
+  return http<Data<BlogEntity[]>>({
+    url: '/article/user',
+  });
+}
+
 interface UpdateDraftParams {
   id: string;
   title: string;
@@ -69,5 +75,19 @@ export function updateDraft(data: UpdateDraftParams) {
     url: '/draft/update',
     method: 'post',
     data,
+  });
+}
+
+/**
+ * 删除草稿
+ * @param id
+ */
+export function deleteDraft(id: string) {
+  return http<Data>({
+    url: '/draft/delete',
+    method: 'post',
+    data: {
+      id,
+    },
   });
 }

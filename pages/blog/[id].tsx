@@ -1,13 +1,14 @@
 import React from 'react';
 import style from './[id].module.scss';
+import { NextPage, GetServerSideProps } from 'next';
+import * as API from '@/api';
 
 interface BlogProps {
-  blog: {
-    html: string;
-  };
+  blog: BlogEntity;
   status: string;
 }
-function Blog(props: BlogProps) {
+
+const Blog: NextPage<BlogProps> = function (props) {
   const { html } = props.blog;
   return (
     <div className={`${style.blog} shadow`}>
@@ -17,17 +18,18 @@ function Blog(props: BlogProps) {
       ></div>
     </div>
   );
-}
+};
 
-Blog.getInitialProps = async function (context: any): Promise<BlogProps> {
-  // const id = context.query.id
-  // const { status, data } = await getArticleDetail(id)
-  // const blog = getFromLocal('123');
+export const getServerSideProps: GetServerSideProps<BlogProps> = async (
+  ctx
+) => {
+  const id = ctx.query.id as string;
+  const [, res] = await API.getArticleDetail(id);
   return {
-    blog: {
-      html: '<h1>nginx</h1><h2>标题二</h2><h3>标题三</h3><p>这是正文</p>',
+    props: {
+      status: res.status,
+      blog: res.data,
     },
-    status: 'success',
   };
 };
 

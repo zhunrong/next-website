@@ -2,27 +2,28 @@ import React from 'react';
 import Link from 'next/link';
 import { useEffect, useRef } from 'react';
 import style from './index.module.scss';
-// import { getAllArticles } from '../../api/article.api';
 import { publicPath } from '../../utils';
 import { Carousel } from 'antd';
 import Header from '@/modules/header';
+import * as API from '@/api';
+import { GetServerSideProps } from 'next';
 
 interface Props {
-  status: string;
-  data: any[];
+  status: 'success' | 'error';
+  blogList: BlogEntity[];
 }
 /**
  * 博客列表页面
  * @param props
  */
 function BlogList(props: Props) {
-  const { data } = props;
+  const { blogList } = props;
   return (
     <div className={style['blog-list']}>
       <Header />
       <BlogBanner />
       <ol>
-        {data.map((item) => {
+        {blogList.map((item) => {
           return <BlogItem {...item} key={item.id} />;
         })}
       </ol>
@@ -30,18 +31,14 @@ function BlogList(props: Props) {
   );
 }
 
-BlogList.getInitialProps = async function () {
-  // const { data, status } = await getAllArticles(10, 1);
-  const data = [
-    {
-      id: 'sdf',
-      title: '文章标题',
-      updateTime: '2018-12-12',
-    },
-  ];
+export const getServerSideProps: GetServerSideProps<Props> = async () => {
+  const [, res] = await API.getBlogList();
+  const blogList = res.data;
   return {
-    data,
-    status: 0,
+    props: {
+      blogList: blogList,
+      status: res.status,
+    },
   };
 };
 

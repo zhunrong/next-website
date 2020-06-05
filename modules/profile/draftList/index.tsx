@@ -1,5 +1,5 @@
 import React, { FunctionComponent, useEffect, useState } from 'react';
-import { Space, Table } from 'antd';
+import { Space, Table, Button } from 'antd';
 import { ColumnType } from 'antd/lib/table';
 import style from './index.module.scss';
 import * as API from '@/api';
@@ -8,13 +8,27 @@ import Link from 'next/link';
 const DraftBox: FunctionComponent = () => {
   const [drafts, setDrafts] = useState<DraftEntity[]>([]);
   useEffect(() => {
-    (async () => {
-      const [, data] = await API.getDraftList();
-      if (data.status === 'success') {
-        setDrafts(data.data);
-      }
-    })();
+    getDrafts();
   }, []);
+  /**
+   * 获取草稿列表
+   */
+  const getDrafts = async () => {
+    const [, data] = await API.getDraftList();
+    if (data.status === 'success') {
+      setDrafts(data.data);
+    }
+  };
+  /**
+   * 删除草稿
+   * @param id
+   */
+  const deleteDraft = async (id: string) => {
+    const [, data] = await API.deleteDraft(id);
+    if (data.status === 'success') {
+      getDrafts();
+    }
+  };
   const columns: ColumnType<DraftEntity>[] = [
     {
       title: '标题',
@@ -27,13 +41,16 @@ const DraftBox: FunctionComponent = () => {
     {
       title: '操作',
       key: 'action',
+      width: 200,
       render: function Action(text, record) {
         return (
           <Space size="middle">
             <Link href="/editor/[id]" as={`/editor/${record.id}`}>
               <a>编辑</a>
             </Link>
-            <a>删除</a>
+            <Button type="link" onClick={() => deleteDraft(record.id)}>
+              删除
+            </Button>
           </Space>
         );
       },
@@ -41,7 +58,6 @@ const DraftBox: FunctionComponent = () => {
   ];
   return (
     <div className={style['draft']}>
-      <div className="draft-title">我的草稿</div>
       <Table rowKey="id" columns={columns} dataSource={drafts}></Table>
     </div>
   );
