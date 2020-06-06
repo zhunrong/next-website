@@ -1,6 +1,12 @@
 .blog-list {
   max-width: 1120px;
   margin: 0 auto;
+  :global {
+    .blog-list-none {
+      padding: 15px 0;
+      background: #fff;
+    }
+  }
 }
 
 .blog-banner {
@@ -20,7 +26,7 @@
 }
 
 .blog-item {
-  margin-bottom: 30px;
+  margin-bottom: 15px;
   background: #fff;
   :global {
     a {

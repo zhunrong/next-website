@@ -2,6 +2,7 @@ import React from 'react';
 import style from './[id].module.scss';
 import { NextPage, GetServerSideProps } from 'next';
 import * as API from '@/api';
+import Header from '@/modules/header';
 
 interface BlogProps {
   blog: BlogEntity;
@@ -11,11 +12,14 @@ interface BlogProps {
 const Blog: NextPage<BlogProps> = function (props) {
   const { html } = props.blog;
   return (
-    <div className={`${style.blog} shadow`}>
-      <div
-        className="document"
-        dangerouslySetInnerHTML={{ __html: html }}
-      ></div>
+    <div className={`${style.blog}`}>
+      <Header />
+      <div className="document shadow bf-container">
+        <div
+          className="public-DraftEditor-content"
+          dangerouslySetInnerHTML={{ __html: html }}
+        ></div>
+      </div>
     </div>
   );
 };

@@ -10,6 +10,7 @@ import {
 } from '@ant-design/icons';
 import { useRouter } from 'next/router';
 import * as API from '@/api';
+import Link from 'next/link';
 
 /**
  * 页面头部
@@ -35,6 +36,8 @@ function Header() {
     if (data.status === 'success') {
       const id = data.data.id;
       router.push('/editor/[id]', `/editor/${id}`);
+    } else {
+      Message.error('服务器错误');
     }
   };
   /**
@@ -73,7 +76,7 @@ function Header() {
             <HighlightOutlined />
           </li>
           <li onClick={linkToDraft}>
-            <span>草稿箱</span>
+            <span>个人中心</span>
             <FileDoneOutlined />
           </li>
           <li onClick={logout}>
@@ -93,6 +96,9 @@ function Header() {
   );
   return (
     <div className={`${style['header']} shadow`}>
+      <Link href="/">
+        <a className="header-link">首页</a>
+      </Link>
       <Popover
         overlayClassName={style['header-avatar-popover']}
         title={email}

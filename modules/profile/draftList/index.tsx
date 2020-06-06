@@ -1,22 +1,41 @@
 import React, { FunctionComponent, useEffect, useState } from 'react';
-import { Space, Table, Button } from 'antd';
-import { ColumnType } from 'antd/lib/table';
+import { Space, Table, Popconfirm, message as Message, Tag } from 'antd';
+import { ColumnType, TablePaginationConfig } from 'antd/lib/table';
+import { PaginationConfig } from 'antd/lib/pagination';
 import style from './index.module.scss';
 import * as API from '@/api';
 import Link from 'next/link';
 
 const DraftBox: FunctionComponent = () => {
   const [drafts, setDrafts] = useState<DraftEntity[]>([]);
+  const [pagination, setPagination] = useState<TablePaginationConfig>({
+    current: 1,
+    pageSize: 2,
+    total: 0,
+    showTotal(total) {
+      return `总共${total}篇`;
+    },
+  });
   useEffect(() => {
-    getDrafts();
+    const { current, pageSize } = pagination;
+    getDrafts(current, pageSize);
   }, []);
   /**
    * 获取草稿列表
    */
-  const getDrafts = async () => {
-    const [, data] = await API.getDraftList();
+  const getDrafts = async (current: number, pageSize: number) => {
+    const [, data] = await API.getDraftList(current, pageSize);
     if (data.status === 'success') {
       setDrafts(data.data);
+      setPagination(
+        Object.assign({}, pagination, {
+          current: data.meta.page,
+          pageSize: data.meta.pageSize,
+          total: data.meta.total,
+        })
+      );
+    } else {
+      Message.error(data.message);
     }
   };
   /**
@@ -26,8 +45,34 @@ const DraftBox: FunctionComponent = () => {
   const deleteDraft = async (id: string) => {
     const [, data] = await API.deleteDraft(id);
     if (data.status === 'success') {
-      getDrafts();
+      Message.success('操作成功');
+      const { current, pageSize } = pagination;
+      getDrafts(current, pageSize);
+    } else {
+      Message.error(data.message);
     }
+  };
+  /**
+   * 同步到博客
+   * @param id
+   */
+  const syncBlog = async (id: string) => {
+    const [, data] = await API.syncDraft(id);
+    if (data.status === 'success') {
+      Message.success('操作成功');
+      const { current, pageSize } = pagination;
+      getDrafts(current, pageSize);
+    } else {
+      Message.error(data.message);
+    }
+  };
+  /**
+   * 翻页
+   * @param pageConf
+   */
+  const handleTableChange = (pageConf: PaginationConfig) => {
+    const { pageSize, current } = pageConf;
+    getDrafts(current, pageSize);
   };
   const columns: ColumnType<DraftEntity>[] = [
     {
@@ -35,8 +80,19 @@ const DraftBox: FunctionComponent = () => {
       dataIndex: 'title',
     },
     {
-      title: '最后更新时间',
-      dataIndex: 'updateAt',
+      title: '状态',
+      dataIndex: 'sync',
+      render(text, record) {
+        return record.sync === 0 ? (
+          <Tag color="cyan">未发布</Tag>
+        ) : (
+          <Tag color="purple">未同步</Tag>
+        );
+      },
+    },
+    {
+      title: '更新时间',
+      dataIndex: 'updateTime',
     },
     {
       title: '操作',
@@ -48,9 +104,17 @@ const DraftBox: FunctionComponent = () => {
             <Link href="/editor/[id]" as={`/editor/${record.id}`}>
               <a>编辑</a>
             </Link>
-            <Button type="link" onClick={() => deleteDraft(record.id)}>
-              删除
-            </Button>
+            <Popconfirm
+              title={`确定删除【${record.title}】吗？`}
+              onConfirm={() => deleteDraft(record.id)}
+              okText="没错"
+              cancelText="误会"
+            >
+              <a href="void:0">删除</a>
+            </Popconfirm>
+            <a href="void:0" onClick={() => syncBlog(record.id)}>
+              {record.sync === 0 ? '发布' : '同步'}
+            </a>
           </Space>
         );
       },
@@ -58,7 +122,13 @@ const DraftBox: FunctionComponent = () => {
   ];
   return (
     <div className={style['draft']}>
-      <Table rowKey="id" columns={columns} dataSource={drafts}></Table>
+      <Table
+        rowKey="id"
+        columns={columns}
+        dataSource={drafts}
+        pagination={pagination}
+        onChange={handleTableChange}
+      ></Table>
     </div>
   );
 };

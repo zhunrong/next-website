@@ -36,9 +36,13 @@ export function getDraft(id: string, cookie?: string) {
 /**
  * 获取用户的草稿列表
  */
-export function getDraftList() {
+export function getDraftList(page = 1, pageSize = 20) {
   return http<Data<DraftEntity[]>>({
     url: '/draft/list',
+    params: {
+      page,
+      pageSize,
+    },
   });
 }
 
@@ -54,9 +58,13 @@ export function getBlogList() {
 /**
  * 获取用户的博客
  */
-export function getUserBlogList() {
+export function getUserBlogList(page = 1, pageSize = 20) {
   return http<Data<BlogEntity[]>>({
     url: '/article/user',
+    params: {
+      page,
+      pageSize,
+    },
   });
 }
 
@@ -71,7 +79,7 @@ interface UpdateDraftParams {
  * @param data
  */
 export function updateDraft(data: UpdateDraftParams) {
-  return http({
+  return http<Data>({
     url: '/draft/update',
     method: 'post',
     data,
@@ -85,6 +93,34 @@ export function updateDraft(data: UpdateDraftParams) {
 export function deleteDraft(id: string) {
   return http<Data>({
     url: '/draft/delete',
+    method: 'post',
+    data: {
+      id,
+    },
+  });
+}
+
+/**
+ * 删除博客
+ * @param ids
+ */
+export function deleteBlog(ids: string[]) {
+  return http<Data>({
+    url: '/article/delete',
+    method: 'post',
+    data: {
+      ids,
+    },
+  });
+}
+
+/**
+ * 同步草稿到博客
+ * @param id
+ */
+export function syncDraft(id: string) {
+  return http<Data>({
+    url: '/draft/sync',
     method: 'post',
     data: {
       id,

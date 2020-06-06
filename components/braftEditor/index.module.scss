@@ -1,0 +1,100 @@
+.editor {
+  max-width: 1200px;
+  height: 100vh;
+  margin: 0 auto;
+  display: flex;
+  :global {
+    .editor-directory {
+      width: 250px;
+      margin-right: 15px;
+      background-color: #fff;
+    }
+    .editor-container {
+      background-color: #fff;
+      flex: 1;
+      .bf-container {
+        display: flex;
+        flex-direction: column;
+        .editor-btn {
+          padding: 0;
+        }
+        .bf-content {
+          flex: 1;
+        }
+      }
+    }
+  }
+}
+
+.directory {
+  position: relative;
+  width: 250px;
+  height: 100%;
+  background-color: #fff;
+  left: 0;
+  top: 0;
+  padding: 10px;
+  padding-top: 50px;
+  :global {
+    .directory-title {
+      text-align: center;
+      margin-bottom: 15px;
+    }
+    .doc-title {
+      margin-bottom: 20px;
+      font-size: 1.2em;
+      font-weight: 600;
+      border-bottom: 1px solid #ccc;
+      position: absolute;
+      width: 100%;
+      height: 40px;
+      line-height: 40px;
+      padding-left: 10px;
+      left: 0;
+      top: 0;
+    }
+    .doc-header {
+      cursor: pointer;
+      color: #000;
+      &:hover {
+        background-color: #f6f6f6;
+      }
+    }
+    .header-one {
+      margin-left: 0;
+      margin-top: 10px;
+      font-size: 1.3em;
+      font-weight: 600;
+    }
+    .header-two {
+      margin-left: 1em;
+      font-size: 1.2em;
+      font-weight: 500;
+    }
+    .header-three {
+      margin-left: 2em;
+      font-size: 1.1em;
+      font-weight: 500;
+    }
+    .header-four {
+      margin-left: 3em;
+      font-size: 1em;
+      font-weight: 500;
+    }
+    .header-five {
+      margin-left: 4em;
+      font-size: 1em;
+      font-weight: 500;
+      color: #333;
+    }
+    .header-six {
+      margin-left: 5em;
+      font-size: 1em;
+      font-weight: 500;
+      color: #666;
+    }
+    .directory-children {
+      padding-left: 1em;
+    }
+  }
+}

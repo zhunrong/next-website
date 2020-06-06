@@ -15,8 +15,9 @@ interface DraftEntity {
   html: string;
   raw: string;
   title: string;
-  createAt: string;
-  updateAt: string;
+  createTime: string;
+  updateTime: string;
+  sync: number;
 }
 
 interface BlogEntity {

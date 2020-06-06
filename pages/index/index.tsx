@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { useEffect, useRef } from 'react';
 import style from './index.module.scss';
 import { publicPath } from '../../utils';
-import { Carousel } from 'antd';
+import { Carousel, Empty } from 'antd';
 import Header from '@/modules/header';
 import * as API from '@/api';
 import { GetServerSideProps } from 'next';
@@ -22,11 +22,17 @@ function BlogList(props: Props) {
     <div className={style['blog-list']}>
       <Header />
       <BlogBanner />
-      <ol>
-        {blogList.map((item) => {
-          return <BlogItem {...item} key={item.id} />;
-        })}
-      </ol>
+      {blogList.length ? (
+        <ol>
+          {blogList.map((item) => {
+            return <BlogItem {...item} key={item.id} />;
+          })}
+        </ol>
+      ) : (
+        <div className="blog-list-none shadow">
+          <Empty description="什么都没有~" />
+        </div>
+      )}
     </div>
   );
 }
@@ -45,7 +51,7 @@ export const getServerSideProps: GetServerSideProps<Props> = async () => {
 function BlogBanner() {
   return (
     <div className={style['blog-banner']}>
-      <Carousel autoplay={false}>
+      <Carousel autoplay>
         <div className="banner-item">
           <ReactiveImage src={publicPath('/images/banner_1.jpg')} />
         </div>
@@ -67,7 +73,6 @@ function ReactiveImage(props: { src: string }) {
   const { src } = props;
   const ref = useRef<HTMLImageElement>();
   useEffect(() => {
-    // console.log(ref.current)
     const el = ref.current;
     const onload = () => {
       const { naturalHeight, naturalWidth } = el;
