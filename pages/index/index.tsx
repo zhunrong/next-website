@@ -1,46 +1,57 @@
-import Link from 'next/link'
-import { useEffect, useRef } from 'react'
-import style from './index.module.scss'
-import { getAllArticles } from '../../api/article.api'
-import { publicPath } from '../../utils'
-import { Carousel } from 'antd'
+import React from 'react';
+import Link from 'next/link';
+import { useEffect, useRef } from 'react';
+import style from './index.module.scss';
+import { publicPath } from '../../utils';
+import { Carousel, Empty } from 'antd';
+import Header from '@/modules/header';
+import * as API from '@/api';
+import { GetServerSideProps } from 'next';
 
 interface Props {
-  status: string
-  data: any[]
+  status: 'success' | 'error';
+  blogList: BlogEntity[];
 }
 /**
  * 博客列表页面
- * @param props 
+ * @param props
  */
 function BlogList(props: Props) {
-  const { data } = props
+  const { blogList } = props;
   return (
     <div className={style['blog-list']}>
+      <Header />
       <BlogBanner />
-      <ol>
-        {
-          data.map(item => {
-            return <BlogItem {...item} key={item.id} />
-          })
-        }
-      </ol>
+      {blogList.length ? (
+        <ol>
+          {blogList.map((item) => {
+            return <BlogItem {...item} key={item.id} />;
+          })}
+        </ol>
+      ) : (
+        <div className="blog-list-none shadow">
+          <Empty description="什么都没有~" />
+        </div>
+      )}
     </div>
-  )
+  );
 }
 
-BlogList.getInitialProps = async function () {
-  const { data, status } = await getAllArticles(10, 1)
+export const getServerSideProps: GetServerSideProps<Props> = async () => {
+  const [, res] = await API.getBlogList();
+  const blogList = res.data;
   return {
-    data,
-    status:0
-  }
-}
+    props: {
+      blogList: blogList,
+      status: res.status,
+    },
+  };
+};
 
 function BlogBanner() {
   return (
     <div className={style['blog-banner']}>
-      <Carousel autoplay={false}>
+      <Carousel autoplay>
         <div className="banner-item">
           <ReactiveImage src={publicPath('/images/banner_1.jpg')} />
         </div>
@@ -55,42 +66,61 @@ function BlogBanner() {
         </div>
       </Carousel>
     </div>
-  )
+  );
 }
 
 function ReactiveImage(props: { src: string }) {
-  const { src } = props
-  const ref = useRef<HTMLImageElement>()
+  const { src } = props;
+  const ref = useRef<HTMLImageElement>();
   useEffect(() => {
-    // console.log(ref.current)
-    const el = ref.current
+    const el = ref.current;
     const onload = () => {
-      const { naturalHeight, naturalWidth } = el
-      if (naturalHeight === 0) return
-      const { offsetWidth, offsetHeight } = el.parentElement
-      el.style.transform = `translate(-50%,-50%) scale(${Math.max(offsetWidth / naturalWidth, offsetHeight / naturalHeight)})`
-      el.style.visibility = 'visible'
-    }
-    onload()
-    el.addEventListener('load', onload)
+      const { naturalHeight, naturalWidth } = el;
+      if (naturalHeight === 0) return;
+      const { offsetWidth, offsetHeight } = el.parentElement;
+      el.style.transform = `translate(-50%,-50%) scale(${Math.max(
+        offsetWidth / naturalWidth,
+        offsetHeight / naturalHeight
+      )})`;
+      el.style.visibility = 'visible';
+    };
+    onload();
+    el.addEventListener('load', onload);
     return () => {
-      el.removeEventListener('load', onload)
-    }
-  })
+      el.removeEventListener('load', onload);
+    };
+  });
   return (
-    <div style={{ width: '100%', height: '100%', overflow: 'hidden', position: 'relative' }}>
-      <img ref={ref} src={src} style={{ display: 'block', position: 'absolute', visibility: 'hidden', left: '50%', top: '50%' }} />
+    <div
+      style={{
+        width: '100%',
+        height: '100%',
+        overflow: 'hidden',
+        position: 'relative',
+      }}
+    >
+      <img
+        ref={ref}
+        src={src}
+        style={{
+          display: 'block',
+          position: 'absolute',
+          visibility: 'hidden',
+          left: '50%',
+          top: '50%',
+        }}
+      />
     </div>
-  )
+  );
 }
 
 interface BlogItemProps {
-  id: string
-  title: string
-  updateTime: string
+  id: string;
+  title: string;
+  updateTime: string;
 }
 function BlogItem(props: BlogItemProps) {
-  const { title, id, updateTime } = props
+  const { title, id, updateTime } = props;
   return (
     <li className={`${style['blog-item']} shadow`}>
       <Link href="/blog/[id]" as={`/blog/${id}`} prefetch={false}>
@@ -102,7 +132,7 @@ function BlogItem(props: BlogItemProps) {
         </a>
       </Link>
     </li>
-  )
+  );
 }
 
-export default BlogList
+export default BlogList;

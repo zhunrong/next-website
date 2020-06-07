@@ -1,0 +1,7 @@
+#__next {
+  &::after,
+  &::before {
+    content: "";
+    display: table;
+  }
+}

@@ -1,10 +1,10 @@
-import React from "react";
-import { AppProps } from "next/app";
-import "../assets/styles/index.scss";
-import "antd/dist/antd.css";
+import React from 'react';
+import { AppProps } from 'next/app';
+import '../assets/styles/index.scss';
+import 'antd/dist/antd.css';
 // import 'draft-js/dist/Draft.css'
-import "braft-editor/dist/index.css";
-import "braft-editor/dist/output.css";
+import 'braft-editor/dist/index.css';
+import 'braft-editor/dist/output.css';
 
 function MyApp({ Component, pageProps }: AppProps) {
   return <Component {...pageProps} />;
