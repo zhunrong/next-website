@@ -17,6 +17,7 @@ interface DraftEntity {
   title: string;
   createTime: string;
   updateTime: string;
+  updateAt: string;
   sync: number;
 }
 

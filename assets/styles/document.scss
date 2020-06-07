@@ -57,4 +57,16 @@
     margin-inline-end: 0px;
     font-weight: bold;
   }
+
+  p {
+    min-height: 1em;
+  }
+
+  a {
+    color: #1890ff;
+    &:hover {
+      color: #40a9ff;
+      text-decoration: underline;
+    }
+  }
 }

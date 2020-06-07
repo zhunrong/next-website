@@ -1,13 +1,22 @@
 .blog {
   max-width: 1120px;
   margin: 0 auto;
+  margin-top: 65px;
   :global {
     .document {
+      padding: 50px 80px;
       background: #fff;
+      margin-bottom: 15px;
     }
   }
 }
 
 @media screen and (max-width: 750px) {
-
+  .blog {
+    :global {
+      .document {
+        padding: 0;
+      }
+    }
+  }
 }

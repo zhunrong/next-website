@@ -9,7 +9,7 @@ const UserBlogs: FunctionComponent = () => {
   const [blogs, setBlogs] = useState<BlogEntity[]>([]);
   const [pagination, setPagination] = useState<TablePaginationConfig>({
     current: 1,
-    pageSize: 2,
+    pageSize: 10,
     total: 0,
     showTotal(total) {
       return `总共${total}篇`;

@@ -44,7 +44,7 @@ function Header() {
    * 去草稿箱
    */
   const linkToDraft = async () => {
-    router.push('/user');
+    router.push('/profile');
   };
   /**
    * 去登录
@@ -96,22 +96,24 @@ function Header() {
   );
   return (
     <div className={`${style['header']} shadow`}>
-      <Link href="/">
-        <a className="header-link">首页</a>
-      </Link>
-      <Popover
-        overlayClassName={style['header-avatar-popover']}
-        title={email}
-        placement="bottomRight"
-        content={content}
-      >
-        <Avatar
-          className="header-avatar"
-          size={32}
-          icon={<UserOutlined />}
-          alt="User"
-        />
-      </Popover>
+      <div className="header-inner">
+        <Link href="/">
+          <a className="header-link">首页</a>
+        </Link>
+        <Popover
+          overlayClassName={style['header-avatar-popover']}
+          title={email}
+          placement="bottomRight"
+          content={content}
+        >
+          <Avatar
+            className="header-avatar"
+            size={32}
+            icon={<UserOutlined />}
+            alt="User"
+          />
+        </Popover>
+      </div>
     </div>
   );
 }

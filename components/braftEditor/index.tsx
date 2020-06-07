@@ -49,10 +49,10 @@ const Editor: FunctionComponent<EditorProps> = (props) => {
   // ];
   return (
     <div className={`${style.editor}`}>
-      <div className="editor-directory shadow">
+      {/* <div className="editor-directory shadow">
         <Directory editorState={editorState} />
-      </div>
-      <div className="editor-container shadow">
+      </div> */}
+      <div className="editor-container">
         <BraftEditor
           className="document"
           value={editorState}

@@ -1,6 +1,5 @@
 .editor {
-  max-width: 1200px;
-  height: 100vh;
+  height: 100%;
   margin: 0 auto;
   display: flex;
   :global {
@@ -10,7 +9,6 @@
       background-color: #fff;
     }
     .editor-container {
-      background-color: #fff;
       flex: 1;
       .bf-container {
         display: flex;
@@ -20,6 +18,20 @@
         }
         .bf-content {
           flex: 1;
+        }
+        .bf-controlbar {
+          max-width: 1600px;
+          box-shadow: none;
+          margin-bottom: 15px;
+          align-self: center;
+        }
+        .DraftEditor-root {
+          background-color: #fff;
+          max-width: 900px;
+          margin: 0 auto;
+          height: auto;
+          padding: 50px 80px;
+          opacity: 0.9;
         }
       }
     }
