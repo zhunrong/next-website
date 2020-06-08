@@ -3,6 +3,7 @@ import style from './[id].module.scss';
 import { NextPage, GetServerSideProps } from 'next';
 import * as API from '@/api';
 import Header from '@/modules/header';
+import Head from 'next/head';
 
 interface BlogProps {
   blog: BlogEntity;
@@ -10,9 +11,12 @@ interface BlogProps {
 }
 
 const Blog: NextPage<BlogProps> = function (props) {
-  const { html } = props.blog;
+  const { html, title } = props.blog;
   return (
     <div className={`${style.blog}`}>
+      <Head>
+        <title>{title}</title>
+      </Head>
       <Header />
       <div className="document shadow bf-container">
         <div

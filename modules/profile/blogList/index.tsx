@@ -1,7 +1,6 @@
 import React, { FunctionComponent, useEffect, useState } from 'react';
 import { Space, Table, message as Message, Popconfirm } from 'antd';
 import { ColumnType, TablePaginationConfig } from 'antd/lib/table';
-import { PaginationConfig } from 'antd/lib/pagination';
 import * as API from '@/api';
 import Link from 'next/link';
 
@@ -53,7 +52,7 @@ const UserBlogs: FunctionComponent = () => {
    * 翻页
    * @param pageConf
    */
-  const handleTableChange = (pageConf: PaginationConfig) => {
+  const handleTableChange = (pageConf: TablePaginationConfig) => {
     const { current, pageSize } = pageConf;
     getBlogs(current, pageSize);
   };
