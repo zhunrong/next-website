@@ -5,6 +5,7 @@ import Header from '@/modules/header';
 import DraftList from '@/modules/profile/draftList';
 import BlogList from '@/modules/profile/blogList';
 import { Tabs } from 'antd';
+import Head from 'next/head';
 
 const UserView: NextPage = () => {
   const [active, setActive] = useState('blog');
@@ -17,6 +18,9 @@ const UserView: NextPage = () => {
   };
   return (
     <div className={style['user']}>
+      <Head>
+        <title>个人中心</title>
+      </Head>
       <Header></Header>
       <div className="user-main shadow">
         <Tabs activeKey={active} onChange={handleTabChange}>

@@ -20,7 +20,7 @@
           flex: 1;
         }
         .bf-controlbar {
-          max-width: 1600px;
+          max-width: 1580px;
           box-shadow: none;
           margin-bottom: 15px;
           align-self: center;
@@ -31,7 +31,6 @@
           margin: 0 auto;
           height: auto;
           padding: 50px 80px;
-          opacity: 0.9;
         }
       }
     }
@@ -107,6 +106,20 @@
     }
     .directory-children {
       padding-left: 1em;
+    }
+  }
+}
+
+@media screen and (max-width: 1580px) {
+  .editor {
+    :global {
+      .editor-container {
+        .bf-container {
+          .bf-controlbar {
+            max-width: 900px;
+          }
+        }
+      }
     }
   }
 }

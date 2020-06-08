@@ -11,6 +11,7 @@ import { debounce } from '@/utils';
 import style from './index.module.scss';
 import { CheckCircleOutlined, LoadingOutlined } from '@ant-design/icons';
 import dayjs from 'dayjs';
+import Head from 'next/head';
 
 const BraftEditor = dynamic(() => import('@/components/braftEditor'), {
   ssr: false,
@@ -55,11 +56,14 @@ const EditorView: NextPage<EditorViewProps> = (props) => {
           }
         }
       })();
-    }, 1 * 1000),
+    }, 2 * 1000),
     []
   );
   return (
     <div className={style['editor-view']}>
+      <Head>
+        <title>文章编辑</title>
+      </Head>
       <div className="editor-view-header shadow">
         <div className="editor-view-header-inner">
           {loading ? (

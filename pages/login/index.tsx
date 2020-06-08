@@ -5,6 +5,7 @@ import md5 from 'blueimp-md5';
 import * as API from '../../api/user.api';
 import * as loginService from '../../services/login';
 import { useRouter } from 'next/router';
+import Head from 'next/head';
 
 interface FormModel {
   email: string;
@@ -39,6 +40,9 @@ function LoginView() {
   }, []);
   return (
     <div className={style['login']}>
+      <Head>
+        <title>zhunrong&apos;s site</title>
+      </Head>
       <div className="login-form shadow">
         <div className="login-title">Login</div>
         <Form

@@ -7,6 +7,7 @@ import { Carousel, Empty } from 'antd';
 import Header from '@/modules/header';
 import * as API from '@/api';
 import { GetServerSideProps } from 'next';
+import Head from 'next/head';
 
 interface Props {
   status: 'success' | 'error';
@@ -20,6 +21,9 @@ function BlogList(props: Props) {
   const { blogList } = props;
   return (
     <div className={style['blog-list']}>
+      <Head>
+        <title>zhunrong&apos;s site</title>
+      </Head>
       <Header />
       <BlogBanner />
       {blogList.length ? (
