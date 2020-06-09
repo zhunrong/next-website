@@ -57,16 +57,16 @@ function BlogBanner() {
     <div className={style['blog-banner']}>
       <Carousel autoplay>
         <div className="banner-item">
-          <ReactiveImage src={publicPath('/images/banner_1.jpg')} />
+          <ReactiveImage src="http://zhunrong.gitee.io/static/next-website/banner_1.jpg" />
         </div>
         <div className="banner-item">
-          <ReactiveImage src={publicPath('/images/banner_2.jpg')} />
+          <ReactiveImage src="http://zhunrong.gitee.io/static/next-website/banner_2.jpg" />
         </div>
         <div className="banner-item">
-          <ReactiveImage src={publicPath('/images/banner_3.jpg')} />
+          <ReactiveImage src="http://zhunrong.gitee.io/static/next-website/banner_3.jpg" />
         </div>
         <div className="banner-item">
-          <ReactiveImage src={publicPath('/images/banner_4.jpg')} />
+          <ReactiveImage src="http://zhunrong.gitee.io/static/next-website/banner_4.jpg" />
         </div>
       </Carousel>
     </div>
