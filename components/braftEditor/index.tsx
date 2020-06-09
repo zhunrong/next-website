@@ -23,14 +23,17 @@ const excludeControls: BuiltInControlType[] = ['fullscreen'];
  */
 const Editor: FunctionComponent<EditorProps> = (props) => {
   const { onStateUpdate, initRaw } = props;
-  const [editorState, setEditorState] = useState(
-    BraftEditor.createEditorState(initRaw)
-  );
+  const [editorState] = useState(BraftEditor.createEditorState(initRaw));
   useEffect(() => {
-    if (onStateUpdate) {
-      onStateUpdate(editorState);
-    }
-  }, [editorState]);
+    handleEditorStateChange(editorState);
+  }, []);
+  /**
+   * 处理状态更新
+   * @param editorState
+   */
+  const handleEditorStateChange = (editorState: EditorState) => {
+    if (onStateUpdate) onStateUpdate(editorState);
+  };
   /**
    * 自定义的控制组件
    */
@@ -55,8 +58,8 @@ const Editor: FunctionComponent<EditorProps> = (props) => {
       <div className="editor-container">
         <BraftEditor
           className="document"
-          value={editorState}
-          onChange={setEditorState}
+          defaultValue={editorState}
+          onChange={handleEditorStateChange}
           excludeControls={excludeControls}
         />
       </div>
