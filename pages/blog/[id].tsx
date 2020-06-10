@@ -1,9 +1,15 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import style from './[id].module.scss';
 import { NextPage, GetServerSideProps } from 'next';
 import * as API from '@/api';
 import Header from '@/modules/header';
 import Head from 'next/head';
+import Prism from 'prismjs';
+
+/**
+ * 开启手动调用
+ */
+(Prism as any).manual = true;
 
 interface BlogProps {
   blog: BlogEntity;
@@ -12,6 +18,9 @@ interface BlogProps {
 
 const Blog: NextPage<BlogProps> = function (props) {
   const { html, title } = props.blog;
+  useEffect(() => {
+    Prism.highlightAll();
+  }, []);
   return (
     <div className={`${style.blog}`}>
       <Head>

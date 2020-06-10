@@ -16,3 +16,15 @@ declare module '*.jpg' {
   const path: string;
   export default path;
 }
+
+declare module 'braft-extensions/dist/code-highlighter' {
+  interface Option {
+    syntaxs?: { name: string; syntax: string }[];
+  }
+  const CodeHighLighter: (option?: Option) => any;
+  export default CodeHighLighter;
+}
+
+interface Window {
+  Prism: any;
+}
