@@ -6,7 +6,8 @@ import 'antd/dist/antd.css';
 import 'braft-editor/dist/index.css';
 import 'braft-editor/dist/output.css';
 import 'braft-extensions/dist/code-highlighter.css';
-import 'prismjs/themes/prism.css';
+import 'prismjs/plugins/toolbar/prism-toolbar.css';
+import 'prismjs/plugins/line-numbers/prism-line-numbers.css';
 
 function MyApp({ Component, pageProps }: AppProps) {
   return <Component {...pageProps} />;

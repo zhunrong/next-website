@@ -1,5 +1,8 @@
 import BraftEditor from 'braft-editor';
 import CodeHighlighter from 'braft-extensions/dist/code-highlighter';
+/**
+ * prismjs语言列表
+ */
 import 'prismjs/components/prism-jsx';
 import 'prismjs/components/prism-tsx';
 import 'prismjs/components/prism-typescript';
@@ -67,5 +70,6 @@ BraftEditor.use(
         syntax: 'yaml',
       },
     ],
+    showLineNumber: true,
   })
 );
