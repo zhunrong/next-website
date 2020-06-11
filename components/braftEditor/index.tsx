@@ -8,6 +8,7 @@ import style from './index.module.scss';
 import { SaveOutlined, LoadingOutlined } from '@ant-design/icons';
 import { isEditorState } from '@/utils/is';
 import { RawDraftContentState, RawDraftContentBlock } from 'draft-js';
+import './config';
 
 interface EditorProps {
   onStateUpdate?: (editorState: EditorState) => void;
