@@ -20,6 +20,7 @@ declare module '*.jpg' {
 declare module 'braft-extensions/dist/code-highlighter' {
   interface Option {
     syntaxs?: { name: string; syntax: string }[];
+    showLineNumber?: boolean;
   }
   const CodeHighLighter: (option?: Option) => any;
   export default CodeHighLighter;
