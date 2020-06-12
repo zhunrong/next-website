@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useState, memo } from 'react';
 import dynamic from 'next/dynamic';
 import { GetServerSideProps, NextPage } from 'next';
 import { useRouter } from 'next/router';
@@ -13,9 +13,11 @@ import { CheckCircleOutlined, LoadingOutlined } from '@ant-design/icons';
 import dayjs from 'dayjs';
 import Head from 'next/head';
 
-const BraftEditor = dynamic(() => import('@/components/braftEditor'), {
-  ssr: false,
-});
+const BraftEditor = memo(
+  dynamic(() => import('@/components/braftEditor'), {
+    ssr: false,
+  })
+);
 
 interface EditorViewProps {
   initRaw: string;
