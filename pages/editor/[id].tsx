@@ -1,4 +1,4 @@
-import React, { useCallback, useState, memo } from 'react';
+import React, { useCallback, useState, memo, useEffect } from 'react';
 import dynamic from 'next/dynamic';
 import { GetServerSideProps, NextPage } from 'next';
 import { useRouter } from 'next/router';
@@ -22,17 +22,23 @@ const BraftEditor = memo(
 interface EditorViewProps {
   initRaw: string;
   updateTime: string;
+  error: boolean;
 }
 
 /**
  * 编辑页面
  */
 const EditorView: NextPage<EditorViewProps> = (props) => {
-  const { initRaw, updateTime: _updateTime } = props;
+  const { initRaw, updateTime: _updateTime, error } = props;
   const [loading, setLoading] = useState(false);
   const [updateTime, setUpdateTime] = useState(_updateTime);
   const router = useRouter();
   const id = router.query.id as string;
+  useEffect(() => {
+    if (error) {
+      router.replace('/');
+    }
+  });
   /**
    * 保存草稿
    */
@@ -43,14 +49,14 @@ const EditorView: NextPage<EditorViewProps> = (props) => {
           setLoading(true);
           const raw = editorState.toRAW(true) as RawDraftContentState;
           const html = editorState.toHTML();
-          const [, data] = await API.updateDraft({
+          const [err, data] = await API.updateDraft({
             id,
             title: raw.blocks[0]?.text || '',
             raw: JSON.stringify(raw),
             html,
           });
           setLoading(false);
-          if (data.status === 'success') {
+          if (!err && data.status === 'success') {
             const updateTime = dayjs(new Date()).format('HH:mm');
             setUpdateTime(updateTime);
           } else {
@@ -61,6 +67,7 @@ const EditorView: NextPage<EditorViewProps> = (props) => {
     }, 2 * 1000),
     []
   );
+  if (error) return null;
   return (
     <div className={style['editor-view']}>
       <Head>
@@ -96,20 +103,22 @@ export const getServerSideProps: GetServerSideProps<EditorViewProps> = async (
   ctx
 ) => {
   const id = ctx.query.id as string;
-  const cookie = ctx.req.headers.cookie;
-  const [, data] = await API.getDraft(id, cookie);
+  const cookie = ctx.req.headers.cookie || '';
+  const [err, data] = await API.getDraft(id, cookie);
   let initRaw = '';
   let updateTime = '';
-  if (data.status === 'success') {
+  let error = false;
+  if (!err && data.status === 'success') {
     initRaw = data.data.raw;
     updateTime = dayjs(data.data.updateAt).format('YYYY-MM-DD HH:mm');
   } else {
-    console.log(data);
+    error = true;
   }
   return {
     props: {
       initRaw,
       updateTime,
+      error,
     },
   };
 };
