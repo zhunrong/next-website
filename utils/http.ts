@@ -1,5 +1,4 @@
 import axios, { AxiosInstance, AxiosRequestConfig } from 'axios';
-import Router from 'next/router';
 
 const _axios: AxiosInstance = axios.create({
   timeout: 60000, // 超时时间一分钟
@@ -21,9 +20,6 @@ _axios.interceptors.response.use(
   (error) => {
     const { response = {} } = error;
     if (response.status === 401) {
-      if (typeof window !== 'undefined' && location.pathname !== '/') {
-        Router.replace('/');
-      }
       return Promise.resolve(response);
     }
     return Promise.reject(error);

@@ -1,10 +1,3 @@
-declare module '*.less' {
-  const style: {
-    [key: string]: string;
-  };
-  export default style;
-}
-
 declare module '*.scss' {
   const style: {
     [key: string]: string;
@@ -25,6 +18,8 @@ declare module 'braft-extensions/dist/code-highlighter' {
   const CodeHighLighter: (option?: Option) => any;
   export default CodeHighLighter;
 }
+
+declare module 'prismjs/*';
 
 interface Window {
   Prism: any;

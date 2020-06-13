@@ -5,6 +5,7 @@ import * as API from '@/api';
 import Header from '@/modules/header';
 import Head from 'next/head';
 import Prism from 'prismjs';
+import { useRouter } from 'next/router';
 /**
  * prismjs语言列表
  */
@@ -44,13 +45,25 @@ interface BlogProps {
 }
 
 const Blog: NextPage<BlogProps> = function (props) {
-  const { html, title } = props.blog;
+  const { blog, status } = props;
+  const router = useRouter();
   useEffect(() => {
-    Prism.highlightAll();
+    if (status === 'success') {
+      Prism.highlightAll();
+    } else {
+      router.replace('/');
+    }
   }, []);
+  if (status !== 'success') return null;
+  const { html, title } = blog;
   return (
     <div className={`${style.blog}`}>
       <Head>
+        <meta
+          name="viewport"
+          content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+          key="viewport"
+        />
         <title>{title}</title>
       </Head>
       <Header />
@@ -69,10 +82,15 @@ export const getServerSideProps: GetServerSideProps<BlogProps> = async (
 ) => {
   const id = ctx.query.id as string;
   const [, res] = await API.getArticleDetail(id);
+  let blog: BlogEntity = null;
+  const status = res.status;
+  if (status === 'success') {
+    blog = res.data;
+  }
   return {
     props: {
-      status: res.status,
-      blog: res.data,
+      status,
+      blog,
     },
   };
 };

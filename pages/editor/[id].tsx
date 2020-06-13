@@ -22,20 +22,20 @@ const BraftEditor = memo(
 interface EditorViewProps {
   initRaw: string;
   updateTime: string;
-  error: boolean;
+  status: 'success' | 'error';
 }
 
 /**
  * 编辑页面
  */
 const EditorView: NextPage<EditorViewProps> = (props) => {
-  const { initRaw, updateTime: _updateTime, error } = props;
+  const { initRaw, updateTime: _updateTime, status } = props;
   const [loading, setLoading] = useState(false);
   const [updateTime, setUpdateTime] = useState(_updateTime);
   const router = useRouter();
   const id = router.query.id as string;
   useEffect(() => {
-    if (error) {
+    if (status !== 'success') {
       router.replace('/');
     }
   });
@@ -67,10 +67,15 @@ const EditorView: NextPage<EditorViewProps> = (props) => {
     }, 2 * 1000),
     []
   );
-  if (error) return null;
+  if (status !== 'success') return null;
   return (
     <div className={style['editor-view']}>
       <Head>
+        <meta
+          name="viewport"
+          content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+          key="viewport"
+        />
         <title>文章编辑</title>
       </Head>
       <div className="editor-view-header shadow">
@@ -104,21 +109,19 @@ export const getServerSideProps: GetServerSideProps<EditorViewProps> = async (
 ) => {
   const id = ctx.query.id as string;
   const cookie = ctx.req.headers.cookie || '';
-  const [err, data] = await API.getDraft(id, cookie);
+  const [, data] = await API.getDraft(id, cookie);
   let initRaw = '';
   let updateTime = '';
-  let error = false;
-  if (!err && data.status === 'success') {
+  const status = data.status;
+  if (status === 'success') {
     initRaw = data.data.raw;
     updateTime = dayjs(data.data.updateAt).format('YYYY-MM-DD HH:mm');
-  } else {
-    error = true;
   }
   return {
     props: {
       initRaw,
       updateTime,
-      error,
+      status,
     },
   };
 };
