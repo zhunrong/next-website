@@ -16,7 +16,7 @@
     "@types/draft-js": "^0.10.40",
     "@types/node": "^13.13.4",
     "@types/react": "^16.9.34",
-    "antd": "^4.2.0",
+    "antd": "4.3.3",
     "axios": "^0.19.2",
     "blueimp-md5": "^2.16.0",
     "braft-editor": "^2.3.9",

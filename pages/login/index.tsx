@@ -41,6 +41,11 @@ function LoginView() {
   return (
     <div className={style['login']}>
       <Head>
+        <meta
+          name="viewport"
+          content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+          key="viewport"
+        />
         <title>zhunrong&apos;s site</title>
       </Head>
       <div className="login-form shadow">

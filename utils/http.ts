@@ -13,6 +13,18 @@ const _axios: AxiosInstance = axios.create({
 _axios.interceptors.request.use((config) => {
   return config;
 });
+_axios.interceptors.response.use(
+  (value) => {
+    return value;
+  },
+  (error) => {
+    const { response = {} } = error;
+    if (response.status === 401) {
+      return Promise.resolve(response);
+    }
+    return Promise.reject(error);
+  }
+);
 
 interface Request<T> extends Promise<T> {
   /**
