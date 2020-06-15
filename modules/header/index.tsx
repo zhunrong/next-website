@@ -11,11 +11,14 @@ import {
 import { useRouter } from 'next/router';
 import * as API from '@/api';
 import Link from 'next/link';
+import { useSelector } from 'react-redux';
 
 /**
  * 页面头部
  */
 function Header() {
+  const globalCount = useSelector<GlobalState, number>((state) => state.count);
+  console.log(globalCount);
   const router = useRouter();
   const [user, setUser] = useState<UserEntity>(null);
   const isLogined = !!user?.id;
@@ -100,6 +103,7 @@ function Header() {
         <Link href="/">
           <a className="header-link">首页</a>
         </Link>
+        <span>{globalCount}</span>
         <Popover
           overlayClassName={style['header-avatar-popover']}
           title={email}

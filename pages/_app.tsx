@@ -1,5 +1,7 @@
 import React from 'react';
 import { AppProps } from 'next/app';
+import { Provider } from 'react-redux';
+import { generateStore } from '@/store/store';
 import '../assets/styles/index.scss';
 import 'antd/dist/antd.css';
 // import 'draft-js/dist/Draft.css'
@@ -10,7 +12,12 @@ import 'prismjs/plugins/toolbar/prism-toolbar.css';
 import 'prismjs/plugins/line-numbers/prism-line-numbers.css';
 
 function MyApp({ Component, pageProps }: AppProps) {
-  return <Component {...pageProps} />;
+  const store = generateStore();
+  return (
+    <Provider store={store}>
+      <Component {...pageProps} />
+    </Provider>
+  );
 }
 
 // Only uncomment this method if you have blocking data requirements for
