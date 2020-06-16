@@ -24,8 +24,8 @@ function LoginView() {
     }
     const [, data] = await API.login(email, md5(password));
     if (data.status === 'success') {
-      router.push('/');
       Message.success('登录成功');
+      router.push('/');
     } else {
       Message.error(data.message);
     }

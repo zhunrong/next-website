@@ -7,7 +7,6 @@ import Document, {
   DocumentContext,
 } from 'next/document';
 import Head from 'next/head';
-import { getStore } from '@/store/store';
 
 class MyDocument extends Document {
   static async getInitialProps(ctx: DocumentContext) {
@@ -16,9 +15,6 @@ class MyDocument extends Document {
   }
 
   render() {
-    const store = getStore();
-    const state = store.getState();
-    console.log('doc');
     return (
       <Html>
         <HeadDefault />
@@ -31,11 +27,6 @@ class MyDocument extends Document {
           <title>zhunrong&apos;s site</title>
         </Head>
         <body className="line-numbers">
-          <script
-            dangerouslySetInnerHTML={{
-              __html: `window.__INITIAL_STATE__ =${JSON.stringify(state)}`,
-            }}
-          ></script>
           <Main />
           <NextScript />
         </body>

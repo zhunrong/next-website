@@ -11,26 +11,28 @@ import {
 import { useRouter } from 'next/router';
 import * as API from '@/api';
 import Link from 'next/link';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import { createUpdateUser } from '@/store/action/action';
 
 /**
  * 页面头部
  */
 function Header() {
-  const globalCount = useSelector<GlobalState, number>((state) => state.count);
-  console.log(globalCount);
+  const user = useSelector<GlobalState, UserEntity>((state) => state.user);
+  const dispatch = useDispatch();
+  console.log(user);
   const router = useRouter();
-  const [user, setUser] = useState<UserEntity>(null);
+  // const [user, setUser] = useState<UserEntity>(null);
   const isLogined = !!user?.id;
   const email = user?.email || '匆匆过客~';
-  useEffect(() => {
-    (async () => {
-      const [err, data] = await API.getUserInfo();
-      if (!err && data.status === 'success') {
-        setUser(data.data);
-      }
-    })();
-  }, []);
+  // useEffect(() => {
+  //   (async () => {
+  //     const [err, data] = await API.getUserInfo();
+  //     if (!err && data.status === 'success') {
+  //       setUser(data.data);
+  //     }
+  //   })();
+  // }, []);
   /**
    * 去写文章
    */
@@ -62,7 +64,8 @@ function Header() {
     (async () => {
       const [, data] = await API.logout();
       if (data.status === 'success') {
-        setUser(null);
+        // setUser(null);
+        dispatch(createUpdateUser(null));
         router.push('/');
         Message.success('已注销');
       } else {
@@ -103,7 +106,6 @@ function Header() {
         <Link href="/">
           <a className="header-link">首页</a>
         </Link>
-        <span>{globalCount}</span>
         <Popover
           overlayClassName={style['header-avatar-popover']}
           title={email}

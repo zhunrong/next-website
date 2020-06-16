@@ -29,8 +29,11 @@ export function logout() {
 /**
  * 获取用户信息
  */
-export function getUserInfo() {
+export function getUserInfo(cookie?: string) {
   return http<Data<UserEntity>>({
     url: '/user',
+    headers: {
+      Cookie: cookie,
+    },
   });
 }

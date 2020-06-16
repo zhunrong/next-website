@@ -1,7 +1,7 @@
 import React from 'react';
 import { AppProps } from 'next/app';
 import { Provider } from 'react-redux';
-import { generateStore } from '@/store/store';
+import { initializeStore } from '@/store/store';
 import '../assets/styles/index.scss';
 import 'antd/dist/antd.css';
 // import 'draft-js/dist/Draft.css'
@@ -12,7 +12,8 @@ import 'prismjs/plugins/toolbar/prism-toolbar.css';
 import 'prismjs/plugins/line-numbers/prism-line-numbers.css';
 
 function MyApp({ Component, pageProps }: AppProps) {
-  const store = generateStore();
+  console.log('app.render');
+  const store = initializeStore(pageProps.initialState);
   return (
     <Provider store={store}>
       <Component {...pageProps} />
@@ -25,11 +26,10 @@ function MyApp({ Component, pageProps }: AppProps) {
 // perform automatic static optimization, causing every page in your app to
 // be server-side rendered.
 //
-// MyApp.getInitialProps = async (appContext) => {
+// MyApp.getInitialProps = async (appContext: AppContext) => {
 //   // calls page's `getInitialProps` and fills `appProps.pageProps`
 //   const appProps = await App.getInitialProps(appContext);
-//
-//   return { ...appProps }
-// }
+//   return { ...appProps };
+// };
 
 export default MyApp;
