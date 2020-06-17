@@ -19,9 +19,15 @@ export function generateStore(): Store {
  * @param state
  */
 export function initializeStore(state?: GlobalState) {
-  // 在客户端不必每次创建新的store
-  if (isClient && store) return store;
-  store = createStore(reducer, state);
+  // 在客户端需要合并上一次store的状态
+  if (isClient && store) {
+    store = createStore(reducer, {
+      ...store.getState(),
+      ...state,
+    });
+  } else {
+    store = createStore(reducer, state);
+  }
   return store;
 }
 

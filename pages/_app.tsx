@@ -12,7 +12,6 @@ import 'prismjs/plugins/toolbar/prism-toolbar.css';
 import 'prismjs/plugins/line-numbers/prism-line-numbers.css';
 
 function MyApp({ Component, pageProps }: AppProps) {
-  console.log('app.render');
   const store = initializeStore(pageProps.initialState);
   return (
     <Provider store={store}>

@@ -7,8 +7,7 @@ import Header from '@/modules/header';
 import * as API from '@/api';
 import { GetServerSideProps } from 'next';
 import Head from 'next/head';
-import { initializeStore } from '@/store/store';
-import { createUpdateUser } from '@/store/action/action';
+import { getUserState } from '@/services/common/serverSide';
 
 interface Props {
   status: 'success' | 'error';
@@ -50,20 +49,12 @@ function BlogList(props: Props) {
 export const getServerSideProps: GetServerSideProps<Props> = async (ctx) => {
   const [, blogRes] = await API.getBlogList();
   const blogList = blogRes.data;
-  const cookie = ctx.req.headers.cookie || '';
-  const [, res] = await API.getUserInfo(cookie);
-  let user: UserEntity = null;
-  if (res.status === 'success') {
-    user = res.data;
-  }
-  console.log('index.getServerSideProps');
-  const store = initializeStore();
-  store.dispatch(createUpdateUser(user));
+  const state = await getUserState(ctx);
   return {
     props: {
       blogList: blogList,
-      status: res.status,
-      initialState: store.getState(),
+      status: blogRes.status,
+      initialState: state,
     },
   };
 };
