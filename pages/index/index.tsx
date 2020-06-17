@@ -2,12 +2,12 @@ import React from 'react';
 import Link from 'next/link';
 import { useEffect, useRef } from 'react';
 import style from './index.module.scss';
-import { publicPath } from '../../utils';
 import { Carousel, Empty } from 'antd';
 import Header from '@/modules/header';
 import * as API from '@/api';
 import { GetServerSideProps } from 'next';
 import Head from 'next/head';
+import { getUserState } from '@/services/common/serverSide';
 
 interface Props {
   status: 'success' | 'error';
@@ -46,13 +46,15 @@ function BlogList(props: Props) {
   );
 }
 
-export const getServerSideProps: GetServerSideProps<Props> = async () => {
-  const [, res] = await API.getBlogList();
-  const blogList = res.data;
+export const getServerSideProps: GetServerSideProps<Props> = async (ctx) => {
+  const [, blogRes] = await API.getBlogList();
+  const blogList = blogRes.data;
+  const state = await getUserState(ctx);
   return {
     props: {
       blogList: blogList,
-      status: res.status,
+      status: blogRes.status,
+      initialState: state,
     },
   };
 };

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import style from './index.module.scss';
 import { Avatar, Popover, message as Message } from 'antd';
 import {
@@ -11,23 +11,18 @@ import {
 import { useRouter } from 'next/router';
 import * as API from '@/api';
 import Link from 'next/link';
+import { useSelector, useDispatch } from 'react-redux';
+import { createUpdateUser } from '@/store/action/action';
 
 /**
  * 页面头部
  */
 function Header() {
+  const user = useSelector<GlobalState, UserEntity>((state) => state.user);
+  const dispatch = useDispatch();
   const router = useRouter();
-  const [user, setUser] = useState<UserEntity>(null);
   const isLogined = !!user?.id;
   const email = user?.email || '匆匆过客~';
-  useEffect(() => {
-    (async () => {
-      const [err, data] = await API.getUserInfo();
-      if (!err && data.status === 'success') {
-        setUser(data.data);
-      }
-    })();
-  }, []);
   /**
    * 去写文章
    */
@@ -59,8 +54,7 @@ function Header() {
     (async () => {
       const [, data] = await API.logout();
       if (data.status === 'success') {
-        setUser(null);
-        router.push('/');
+        dispatch(createUpdateUser(null));
         Message.success('已注销');
       } else {
         Message.error(data.message);

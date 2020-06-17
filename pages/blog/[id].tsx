@@ -6,6 +6,7 @@ import Header from '@/modules/header';
 import Head from 'next/head';
 import Prism from 'prismjs';
 import { useRouter } from 'next/router';
+import { getUserState } from '@/services/common/serverSide';
 /**
  * prismjs语言列表
  */
@@ -87,10 +88,12 @@ export const getServerSideProps: GetServerSideProps<BlogProps> = async (
   if (status === 'success') {
     blog = res.data;
   }
+  const state = await getUserState(ctx);
   return {
     props: {
       status,
       blog,
+      initialState: state,
     },
   };
 };

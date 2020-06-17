@@ -1,14 +1,18 @@
 import React, { useState } from 'react';
-import { NextPage } from 'next';
+import { NextPage, GetServerSideProps } from 'next';
 import style from './index.module.scss';
 import Header from '@/modules/header';
 import DraftList from '@/modules/profile/draftList';
 import BlogList from '@/modules/profile/blogList';
 import { Tabs } from 'antd';
 import Head from 'next/head';
+import { getUserState } from '@/services/common/serverSide';
+import { useUserAndRedirect } from '@/services/hooks/hooks';
 
 const UserView: NextPage = () => {
+  const user = useUserAndRedirect();
   const [active, setActive] = useState('blog');
+  if (!user) return null;
   /**
    * tab栏切换
    * @param key
@@ -39,6 +43,15 @@ const UserView: NextPage = () => {
       </div>
     </div>
   );
+};
+
+export const getServerSideProps: GetServerSideProps = async (ctx) => {
+  const state = await getUserState(ctx);
+  return {
+    props: {
+      initialState: state,
+    },
+  };
 };
 
 export default UserView;

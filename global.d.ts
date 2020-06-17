@@ -23,4 +23,5 @@ declare module 'prismjs/*';
 
 interface Window {
   Prism: any;
+  __INITIAL_STATE__: GlobalState;
 }
