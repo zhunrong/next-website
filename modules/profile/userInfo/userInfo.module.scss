@@ -1,0 +1,13 @@
+.user {
+  :global {
+    .user-title {
+      font-size: 20px;
+      padding-bottom: 15px;
+      margin-bottom: 30px;
+      border-bottom: 1px solid #ccc;
+    }
+    .user-info {
+      width: 300px;
+    }
+  }
+}
