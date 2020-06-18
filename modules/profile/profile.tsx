@@ -15,7 +15,7 @@ const Profile: FunctionComponent = () => {
    */
   const handleTabChange = (key: string) => setActiveTab(key);
   return (
-    <PageLayout className={style['profile']} docTitle="个人中心">
+    <PageLayout className={`${style['profile']} shadow`} docTitle="个人中心">
       <Header></Header>
       <div className="profile-main">
         <Tabs
