@@ -42,3 +42,20 @@ interface UserEntity {
   createAt: string;
   updateAt: string;
 }
+
+/**
+ * 上传令牌
+ */
+interface UploadTokenEntity {
+  credentials: {
+    sessionToken: string;
+    tmpSecretId: string;
+    tmpSecretKey: string;
+  };
+  expiredTime: number;
+  startTime: number;
+  bucket: string;
+  region: string;
+  directory?: string;
+  domain: string;
+}

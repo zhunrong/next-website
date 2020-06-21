@@ -3,9 +3,11 @@ import style from './profile.module.scss';
 import Header from '@/modules/header';
 import PageLayout from '@/components/pageLayout/pageLayout';
 import { Tabs } from 'antd';
-import UserInfo from './userInfo/userInfo';
+import dynamic from 'next/dynamic';
+// import UserInfo from './userInfo/userInfo';
 import BlogList from './blogList';
 import DraftList from './draftList';
+const UserInfo = dynamic(() => import('./userInfo/userInfo'), { ssr: false });
 
 const Profile: FunctionComponent = () => {
   const [activeTab, setActiveTab] = useState('setting');

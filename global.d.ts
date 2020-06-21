@@ -21,7 +21,11 @@ declare module 'braft-extensions/dist/code-highlighter' {
 
 declare module 'prismjs/*';
 
+declare module 'cos-js-sdk-v5' {
+  declare const COS: any;
+  export default COS;
+}
+
 interface Window {
   Prism: any;
-  __INITIAL_STATE__: GlobalState;
 }

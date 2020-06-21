@@ -1,6 +1,9 @@
 .user {
   :global {
-    .user-title {
+    .user-form {
+      position: relative;
+    }
+    .user-form-title {
       font-size: 20px;
       padding-bottom: 15px;
       margin-bottom: 30px;
@@ -8,6 +11,17 @@
     }
     .user-info {
       width: 300px;
+    }
+    .user-avatar {
+      position: absolute;
+      left: 330px;
+      top: 77px;
+      .user-avatar-label {
+        color: rgba(0, 0, 0, 0.85);
+        font-size: 14px;
+        line-height: 22px;
+        margin-bottom: 8px;
+      }
     }
     .user-security {
       width: 300px;

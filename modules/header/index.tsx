@@ -101,6 +101,7 @@ function Header() {
           content={content}
         >
           <Avatar
+            src={user.avatar}
             className="header-avatar"
             size={32}
             icon={<UserOutlined />}
