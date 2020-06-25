@@ -21,6 +21,7 @@
     "blueimp-md5": "^2.16.0",
     "braft-editor": "^2.3.9",
     "braft-extensions": "^0.1.0",
+    "cos-js-sdk-v5": "^0.5.26",
     "dayjs": "^1.8.28",
     "draft-js-prism": "^1.0.6",
     "eslint-plugin-react": "^7.20.0",

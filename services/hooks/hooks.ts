@@ -17,6 +17,6 @@ export function useUserAndRedirect() {
   const router = useRouter();
   useEffect(() => {
     if (!user) router.replace('/');
-  }, []);
+  }, [user]);
   return user;
 }
