@@ -1,12 +1,17 @@
 import React, { FunctionComponent } from 'react';
-import { Form, Input, Button } from 'antd';
+import { Form, Input, Button, message as Message } from 'antd';
 import { Rule } from 'antd/lib/form';
 import style from './userInfo.module.scss';
 import { useUser } from '@/services/hooks/hooks';
 import AvatarSetting from './avatar/avatar';
+import * as API from '@/api';
+import { useDispatch } from 'react-redux';
+import { createUpdateUser } from '@/store/action/action';
+import md5 from 'blueimp-md5';
 
 const UserInfo: FunctionComponent = () => {
   const user = useUser();
+  const dispatch = useDispatch();
   const baseInfo = {
     email: user.email,
     nickname: user.nickname,
@@ -20,15 +25,33 @@ const UserInfo: FunctionComponent = () => {
    * 更新基本信息
    * @param values
    */
-  const updateBaseInfo = (values: typeof baseInfo) => {
-    console.log(values);
+  const updateBaseInfo = async (values: typeof baseInfo) => {
+    const [, res] = await API.updateUserInfo({
+      nickname: values.nickname,
+    });
+    if (res.status === 'success') {
+      dispatch(createUpdateUser(res.data));
+      Message.success('更新成功');
+    } else {
+      Message.error(res.message);
+    }
   };
   /**
    * 更新密码
    * @param values
    */
-  const updatePassword = (values: typeof securityInfo) => {
-    console.log(values);
+  const updatePassword = async (values: typeof securityInfo) => {
+    const { oldPassword, newPassword } = values;
+    const [, res] = await API.updateUserPassword(
+      md5(oldPassword),
+      md5(newPassword)
+    );
+    if (res.status === 'success') {
+      dispatch(createUpdateUser(res.data));
+      Message.success('更新成功');
+    } else {
+      Message.error(res.message);
+    }
   };
   const rules: Rule[] = [
     {

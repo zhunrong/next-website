@@ -41,7 +41,6 @@ export function getUserInfo(cookie?: string) {
 export interface UpdateUserInfoParams {
   avatar?: string;
   nickname?: string;
-  password?: string;
 }
 /**
  * 更新用户信息
@@ -52,6 +51,22 @@ export function updateUserInfo(params: UpdateUserInfoParams) {
     url: '/user',
     method: 'put',
     data: params,
+  });
+}
+
+/**
+ * 更新用户密码
+ * @param oldPassword
+ * @param newPassword
+ */
+export function updateUserPassword(oldPassword: string, newPassword: string) {
+  return http<Data<UserEntity>>({
+    url: '/user/password',
+    method: 'put',
+    data: {
+      oldPassword,
+      newPassword,
+    },
   });
 }
 
