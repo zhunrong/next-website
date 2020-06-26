@@ -1,14 +1,18 @@
-import React, { useState, useEffect, FunctionComponent, Props } from 'react';
+import React, { useState, useMemo, FunctionComponent, Props } from 'react';
 import BraftEditor, {
   EditorState,
   BuiltInControlType,
   ExtendControlType,
+  MediaType,
 } from 'braft-editor';
 import style from './index.module.scss';
-import { SaveOutlined, LoadingOutlined } from '@ant-design/icons';
+import { LoadingOutlined } from '@ant-design/icons';
 import { isEditorState } from '@/utils/is';
 import { RawDraftContentState, RawDraftContentBlock } from 'draft-js';
 import './config';
+import COS from 'cos-js-sdk-v5';
+import * as API from '@/api';
+import { useUser } from '@/services/hooks/hooks';
 
 interface EditorProps {
   onStateUpdate?: (editorState: EditorState) => void;
@@ -25,8 +29,26 @@ const excludeControls: BuiltInControlType[] = ['fullscreen'];
 const Editor: FunctionComponent<EditorProps> = (props) => {
   const { onStateUpdate, initRaw } = props;
   const [editorState] = useState(BraftEditor.createEditorState(initRaw));
-  useEffect(() => {
-    handleEditorStateChange(editorState);
+  const user = useUser();
+  // useEffect(() => {
+  //   handleEditorStateChange(editorState);
+  // }, []);
+  const cos: any = useMemo(() => {
+    return new COS({
+      async getAuthorization(options: any, callback: any) {
+        const [, res] = await API.getUploadToken('user');
+        if (res.status === 'success') {
+          const { credentials, startTime, expiredTime } = res.data;
+          callback({
+            TmpSecretId: credentials.tmpSecretId,
+            TmpSecretKey: credentials.tmpSecretKey,
+            XCosSecurityToken: credentials.sessionToken,
+            StartTime: startTime,
+            ExpiredTime: expiredTime,
+          });
+        }
+      },
+    });
   }, []);
   /**
    * 处理状态更新
@@ -36,21 +58,56 @@ const Editor: FunctionComponent<EditorProps> = (props) => {
     if (onStateUpdate) onStateUpdate(editorState);
   };
   /**
-   * 自定义的控制组件
+   * 媒体相关配置
    */
-  // const extendControls: ExtendControlType[] = [
-  //   {
-  //     text: (
-  //       <EditorBtn>
-  //         <SaveOutlined />
-  //       </EditorBtn>
-  //     ),
-  //     className: 'editor-btn',
-  //     title: '同步',
-  //     key: 'save-button',
-  //     type: 'button',
-  //   },
-  // ];
+  const mediaConfig: MediaType = {
+    accepts: {
+      image: 'image/*',
+      video: false,
+      audio: false,
+    },
+    externals: {
+      video: false,
+      audio: false,
+      embed: false,
+    },
+    uploadFn(params) {
+      const { file, progress, error, success } = params;
+      const key = `/${user.email}/media/${Date.now()}_${file.name}`;
+      cos.putObject(
+        {
+          Bucket: 'user-1253381776',
+          Region: 'ap-guangzhou',
+          Key: key,
+          Body: file,
+          onProgress(data: any) {
+            progress(data.percent * 100);
+          },
+        },
+        (err: any, data: any) => {
+          if (err) {
+            error({
+              msg: '上传失败',
+            });
+            console.error(err);
+          } else {
+            success({
+              url: `http://${data.Location}`,
+              meta: {
+                title: file.name,
+                id: key,
+                alt: 'image',
+                loop: false,
+                autoPlay: false,
+                poster: null,
+                controls: true,
+              },
+            });
+          }
+        }
+      );
+    },
+  };
   return (
     <div className={`${style.editor}`}>
       {/* <div className="editor-directory shadow">
@@ -62,6 +119,7 @@ const Editor: FunctionComponent<EditorProps> = (props) => {
           defaultValue={editorState}
           onChange={handleEditorStateChange}
           excludeControls={excludeControls}
+          media={mediaConfig}
         />
       </div>
     </div>

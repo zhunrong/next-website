@@ -12,6 +12,7 @@ import style from './index.module.scss';
 import { CheckCircleOutlined, LoadingOutlined } from '@ant-design/icons';
 import dayjs from 'dayjs';
 import Head from 'next/head';
+import { getUserState } from '@/services/common/serverSide';
 
 const BraftEditor = memo(
   dynamic(() => import('@/components/braftEditor'), {
@@ -109,7 +110,10 @@ export const getServerSideProps: GetServerSideProps<EditorViewProps> = async (
 ) => {
   const id = ctx.query.id as string;
   const cookie = ctx.req.headers.cookie || '';
-  const [, data] = await API.getDraft(id, cookie);
+  const [[, data], state] = await Promise.all([
+    API.getDraft(id, cookie),
+    getUserState(ctx),
+  ]);
   let initRaw = '';
   let updateTime = '';
   const status = data.status;
@@ -122,6 +126,7 @@ export const getServerSideProps: GetServerSideProps<EditorViewProps> = async (
       initRaw,
       updateTime,
       status,
+      initialState: state,
     },
   };
 };
