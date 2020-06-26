@@ -74,7 +74,7 @@ export function updateUserPassword(oldPassword: string, newPassword: string) {
  * 获取上传令牌
  * @param type
  */
-export function getUploadToken(type?: string) {
+export function getUploadToken(type?: 'user') {
   return http<Data<UploadTokenEntity>>({
     url: '/qcloud/uploadCredential',
     params: {

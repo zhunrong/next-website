@@ -30,9 +30,6 @@ const Editor: FunctionComponent<EditorProps> = (props) => {
   const { onStateUpdate, initRaw } = props;
   const [editorState] = useState(BraftEditor.createEditorState(initRaw));
   const user = useUser();
-  // useEffect(() => {
-  //   handleEditorStateChange(editorState);
-  // }, []);
   const cos: any = useMemo(() => {
     return new COS({
       async getAuthorization(options: any, callback: any) {
