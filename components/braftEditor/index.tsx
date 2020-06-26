@@ -9,7 +9,7 @@ import style from './index.module.scss';
 import { LoadingOutlined } from '@ant-design/icons';
 import { isEditorState } from '@/utils/is';
 import { RawDraftContentState, RawDraftContentBlock } from 'draft-js';
-import './config';
+import { controls } from './config';
 import COS from 'cos-js-sdk-v5';
 import * as API from '@/api';
 import { useUser } from '@/services/hooks/hooks';
@@ -112,11 +112,13 @@ const Editor: FunctionComponent<EditorProps> = (props) => {
       </div> */}
       <div className="editor-container">
         <BraftEditor
+          controls={controls}
           className="document"
           defaultValue={editorState}
           onChange={handleEditorStateChange}
           excludeControls={excludeControls}
           media={mediaConfig}
+          placeholder="开始输入吧！"
         />
       </div>
     </div>
