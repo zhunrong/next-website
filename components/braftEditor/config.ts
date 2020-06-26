@@ -1,4 +1,4 @@
-import BraftEditor from 'braft-editor';
+import BraftEditor, { ControlType } from 'braft-editor';
 import CodeHighlighter from 'braft-extensions/dist/code-highlighter';
 /**
  * prismjs语言列表
@@ -73,3 +73,38 @@ BraftEditor.use(
     showLineNumber: true,
   })
 );
+
+export const controls: ControlType[] = [
+  'undo',
+  'redo',
+  'remove-styles',
+  'separator',
+  'headings',
+  'font-size',
+  'line-height',
+  // 'letter-spacing',
+  'separator',
+  'text-color',
+  'bold',
+  'italic',
+  'underline',
+  'strike-through',
+  'separator',
+  'text-align',
+  'text-indent',
+  'separator',
+  'list-ul',
+  'list-ol',
+  'blockquote',
+  'code',
+  'separator',
+  'superscript',
+  'subscript',
+  'emoji',
+  'separator',
+  'media',
+  'link',
+  'hr',
+  // 'separator',
+  // 'clear',
+];

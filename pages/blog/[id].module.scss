@@ -1,5 +1,5 @@
 .blog {
-  max-width: 1120px;
+  max-width: 960px;
   margin: 0 auto;
   margin-top: 65px;
   :global {
@@ -9,6 +9,9 @@
       background-color: #fff;
       pre[class*=language]{
         background-color: #21242a;
+      }
+      img {
+        max-width: 100%;
       }
     }
   }

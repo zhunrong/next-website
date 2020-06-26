@@ -1,5 +1,5 @@
 .blog-list {
-  max-width: 1120px;
+  max-width: 960px;
   margin: 0 auto;
   margin-top: 65px;
   :global {
@@ -21,7 +21,7 @@
       }
     }
     .banner-item {
-      height: 500px;
+      height: 540px;
     }
   }
 }
@@ -48,7 +48,7 @@
   .blog-banner {
     :global {
       .banner-item {
-        height: 210px;
+        height: 211px;
       }
     }
   }

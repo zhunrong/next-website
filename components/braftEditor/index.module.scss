@@ -27,13 +27,20 @@
         }
         .DraftEditor-root {
           background-color: #fff;
-          max-width: 900px;
+          max-width: 960px;
           margin: 0 auto;
           height: auto;
           padding: 50px 80px;
         }
         .braft-code-block {
           max-height: none;
+        }
+        .public-DraftEditorPlaceholder-root {
+          top: 65px;
+          left: 95px;
+        }
+        .public-DraftStyleDefault-block {
+          line-height: 1.75;
         }
       }
     }
@@ -119,7 +126,7 @@
       .editor-container {
         .bf-container {
           .bf-controlbar {
-            max-width: 900px;
+            max-width: 960px;
           }
         }
       }

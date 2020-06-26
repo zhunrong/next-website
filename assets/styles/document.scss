@@ -1,4 +1,6 @@
 .document {
+  font-size: 16px;
+
   h1 {
     display: block;
     font-size: 2em;
@@ -60,6 +62,11 @@
 
   p {
     min-height: 1em;
+    display: block;
+    margin-block-start: 1em;
+    margin-block-end: 1em;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
   }
 
   a {
@@ -68,5 +75,11 @@
       color: #40a9ff;
       text-decoration: underline;
     }
+  }
+}
+
+@media screen and (max-width:750px) {
+  .document {
+    font-size: 14px;
   }
 }
