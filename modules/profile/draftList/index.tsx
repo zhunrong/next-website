@@ -121,6 +121,7 @@ const DraftBox: FunctionComponent = () => {
   ];
   return (
     <div className={style['draft']}>
+      <div className="draft-title">草稿列表</div>
       <Table
         rowKey="id"
         columns={columns}

@@ -6,8 +6,8 @@ import { Carousel, Empty } from 'antd';
 import Header from '@/modules/header';
 import * as API from '@/api';
 import { GetServerSideProps } from 'next';
-import Head from 'next/head';
 import { getUserState } from '@/services/common/serverSide';
+import PageLayout from '@/components/pageLayout/pageLayout';
 
 interface Props {
   status: 'success' | 'error';
@@ -20,15 +20,7 @@ interface Props {
 function BlogList(props: Props) {
   const { blogList } = props;
   return (
-    <div className={style['blog-list']}>
-      <Head>
-        <meta
-          name="viewport"
-          content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
-          key="viewport"
-        />
-        <title>zhunrong&apos;s site</title>
-      </Head>
+    <PageLayout className={style['blog-list']}>
       <Header />
       <BlogBanner />
       {blogList.length ? (
@@ -42,7 +34,7 @@ function BlogList(props: Props) {
           <Empty description="什么都没有~" />
         </div>
       )}
-    </div>
+    </PageLayout>
   );
 }
 
