@@ -3,6 +3,7 @@ import { Space, Table, message as Message, Popconfirm } from 'antd';
 import { ColumnType, TablePaginationConfig } from 'antd/lib/table';
 import * as API from '@/api';
 import Link from 'next/link';
+import style from './index.module.scss';
 
 const UserBlogs: FunctionComponent = () => {
   const [blogs, setBlogs] = useState<BlogEntity[]>([]);
@@ -89,7 +90,8 @@ const UserBlogs: FunctionComponent = () => {
     },
   ];
   return (
-    <div>
+    <div className={style['blog-list']}>
+      <div className="blog-list-title">博客列表</div>
       <Table
         rowKey="id"
         columns={columns}

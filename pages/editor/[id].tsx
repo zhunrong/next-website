@@ -11,8 +11,8 @@ import { debounce } from '@/utils';
 import style from './index.module.scss';
 import { CheckCircleOutlined, LoadingOutlined } from '@ant-design/icons';
 import dayjs from 'dayjs';
-import Head from 'next/head';
 import { getUserState } from '@/services/common/serverSide';
+import PageLayout from '@/components/pageLayout/pageLayout';
 
 const BraftEditor = memo(
   dynamic(() => import('@/components/braftEditor'), {
@@ -47,7 +47,6 @@ const EditorView: NextPage<EditorViewProps> = (props) => {
     debounce((editorState: EditorState) => {
       (async () => {
         if (isEditorState(editorState)) {
-          setLoading(true);
           const raw = editorState.toRAW(true) as RawDraftContentState;
           const html = editorState.toHTML();
           const [err, data] = await API.updateDraft({
@@ -68,17 +67,17 @@ const EditorView: NextPage<EditorViewProps> = (props) => {
     }, 2 * 1000),
     []
   );
+  /**
+   * 处理state更新
+   * @param state
+   */
+  const handleStateUpdate = (state: EditorState) => {
+    setLoading(true);
+    saveDraft(state);
+  };
   if (status !== 'success') return null;
   return (
-    <div className={style['editor-view']}>
-      <Head>
-        <meta
-          name="viewport"
-          content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
-          key="viewport"
-        />
-        <title>文章编辑</title>
-      </Head>
+    <PageLayout className={style['editor-view']} docTitle="文章编辑">
       <div className="editor-view-header shadow">
         <div className="editor-view-header-inner">
           {loading ? (
@@ -95,9 +94,9 @@ const EditorView: NextPage<EditorViewProps> = (props) => {
         </div>
       </div>
       <div className="editor-view-body">
-        <BraftEditor onStateUpdate={saveDraft} initRaw={initRaw} />
+        <BraftEditor onStateUpdate={handleStateUpdate} initRaw={initRaw} />
       </div>
-    </div>
+    </PageLayout>
   );
 };
 

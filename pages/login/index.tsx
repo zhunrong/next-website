@@ -5,7 +5,7 @@ import md5 from 'blueimp-md5';
 import * as API from '../../api/user.api';
 import * as loginService from '../../services/login';
 import { useRouter } from 'next/router';
-import Head from 'next/head';
+import PageLayout from '@/components/pageLayout/pageLayout';
 
 interface FormModel {
   email: string;
@@ -39,15 +39,7 @@ function LoginView() {
     }
   }, []);
   return (
-    <div className={style['login']}>
-      <Head>
-        <meta
-          name="viewport"
-          content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
-          key="viewport"
-        />
-        <title>zhunrong&apos;s site</title>
-      </Head>
+    <PageLayout className={style['login']}>
       <div className="login-form shadow">
         <div className="login-title">Login</div>
         <Form
@@ -78,7 +70,7 @@ function LoginView() {
           </Form.Item>
         </Form>
       </div>
-    </div>
+    </PageLayout>
   );
 }
 

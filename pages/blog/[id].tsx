@@ -3,8 +3,8 @@ import style from './[id].module.scss';
 import { NextPage, GetServerSideProps } from 'next';
 import * as API from '@/api';
 import Header from '@/modules/header';
-import Head from 'next/head';
 import Prism from 'prismjs';
+import PageLayout from '@/components/pageLayout/pageLayout';
 import { useRouter } from 'next/router';
 import { getUserState } from '@/services/common/serverSide';
 /**
@@ -58,15 +58,7 @@ const Blog: NextPage<BlogProps> = function (props) {
   if (status !== 'success') return null;
   const { html, title } = blog;
   return (
-    <div className={`${style.blog}`}>
-      <Head>
-        <meta
-          name="viewport"
-          content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
-          key="viewport"
-        />
-        <title>{title}</title>
-      </Head>
+    <PageLayout className={`${style.blog}`} docTitle={title}>
       <Header />
       <div className="document shadow bf-container">
         <div
@@ -74,7 +66,7 @@ const Blog: NextPage<BlogProps> = function (props) {
           dangerouslySetInnerHTML={{ __html: html }}
         ></div>
       </div>
-    </div>
+    </PageLayout>
   );
 };
 
