@@ -6,7 +6,7 @@ import { isEditorState } from '@/utils/is';
 import { EditorState } from 'braft-editor';
 import { RawDraftContentState } from 'draft-js';
 import * as API from '@/api/article.api';
-import { message as Message } from 'antd';
+import { message as Message, Button } from 'antd';
 import { debounce } from '@/utils';
 import style from './index.module.scss';
 import { CheckCircleOutlined, LoadingOutlined } from '@ant-design/icons';
@@ -91,6 +91,16 @@ const EditorView: NextPage<EditorViewProps> = (props) => {
               <span className="status-text">最近保存：{updateTime}</span>
             </div>
           )}
+          <div className="actions">
+            <Button
+              type="ghost"
+              shape="round"
+              className="publish"
+              size="middle"
+            >
+              发布
+            </Button>
+          </div>
         </div>
       </div>
       <div className="editor-view-body">

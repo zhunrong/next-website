@@ -12,10 +12,21 @@
         color: #fff;
         display: flex;
         align-items: center;
+        position: relative;
       }
       .status {
         .status-text {
           margin-left: 5px;
+        }
+      }
+      .actions {
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        .publish {
+          color: #1890ff;
+          border-color: #1890ff;
         }
       }
     }
