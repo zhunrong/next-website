@@ -25,8 +25,17 @@
         right: 0;
         bottom: 0;
         .publish {
-          color: #1890ff;
-          border-color: #1890ff;
+          border-color: rgba(24, 144, 255, 1);
+          color: rgba(24, 144, 255, 1);
+          background: none;
+          &:hover {
+            border-color: rgba(24, 144, 255, 0.8);
+            color: rgba(24, 144, 255, 0.8);
+          }
+          &:disabled {
+            border-color: rgba(24, 144, 255, 0.5);
+            color: rgba(24, 144, 255, 0.5);
+          }
         }
       }
     }

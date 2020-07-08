@@ -23,6 +23,7 @@ const BraftEditor = memo(
 interface EditorViewProps {
   initRaw: string;
   updateTime: string;
+  draft: DraftEntity;
   status: 'success' | 'error';
 }
 
@@ -30,9 +31,11 @@ interface EditorViewProps {
  * 编辑页面
  */
 const EditorView: NextPage<EditorViewProps> = (props) => {
-  const { initRaw, updateTime: _updateTime, status } = props;
+  const { initRaw, updateTime: _updateTime, status, draft } = props;
   const [loading, setLoading] = useState(false);
+  const [publishLoading, setPublishLoading] = useState(false);
   const [updateTime, setUpdateTime] = useState(_updateTime);
+  const [isPublished, setIsPublished] = useState(draft?.sync === 1);
   const router = useRouter();
   const id = router.query.id as string;
   useEffect(() => {
@@ -59,6 +62,7 @@ const EditorView: NextPage<EditorViewProps> = (props) => {
           if (!err && data.status === 'success') {
             const updateTime = dayjs(new Date()).format('HH:mm');
             setUpdateTime(updateTime);
+            setIsPublished(false);
           } else {
             Message.error('服务器错误');
           }
@@ -74,6 +78,18 @@ const EditorView: NextPage<EditorViewProps> = (props) => {
   const handleStateUpdate = (state: EditorState) => {
     setLoading(true);
     saveDraft(state);
+  };
+  /**
+   * 发布
+   */
+  const publish = async () => {
+    setPublishLoading(true);
+    const [, res] = await API.syncDraft(draft.id);
+    setPublishLoading(false);
+    if (res.status === 'success') {
+      setIsPublished(true);
+      Message.success('发布成功');
+    }
   };
   if (status !== 'success') return null;
   return (
@@ -96,7 +112,10 @@ const EditorView: NextPage<EditorViewProps> = (props) => {
               type="ghost"
               shape="round"
               className="publish"
-              size="middle"
+              size="small"
+              loading={publishLoading}
+              disabled={isPublished || loading}
+              onClick={publish}
             >
               发布
             </Button>
@@ -135,6 +154,7 @@ export const getServerSideProps: GetServerSideProps<EditorViewProps> = async (
       initRaw,
       updateTime,
       status,
+      draft: data.data,
       initialState: state,
     },
   };
