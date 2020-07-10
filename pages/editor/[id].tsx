@@ -32,9 +32,13 @@ interface EditorViewProps {
  */
 const EditorView: NextPage<EditorViewProps> = (props) => {
   const { initRaw, updateTime: _updateTime, status, draft } = props;
+  // 保存loading
   const [loading, setLoading] = useState(false);
+  // 发布loading
   const [publishLoading, setPublishLoading] = useState(false);
+  // 更新时间
   const [updateTime, setUpdateTime] = useState(_updateTime);
+  // 是否已发布
   const [isPublished, setIsPublished] = useState(draft?.sync === 1);
   const router = useRouter();
   const id = router.query.id as string;
@@ -75,10 +79,10 @@ const EditorView: NextPage<EditorViewProps> = (props) => {
    * 处理state更新
    * @param state
    */
-  const handleStateUpdate = (state: EditorState) => {
+  const handleStateUpdate = useCallback((state: EditorState) => {
     setLoading(true);
     saveDraft(state);
-  };
+  }, []);
   /**
    * 发布
    */

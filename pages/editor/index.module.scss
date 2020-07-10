@@ -13,6 +13,7 @@
         display: flex;
         align-items: center;
         position: relative;
+        padding: 0 15px;
       }
       .status {
         .status-text {
@@ -22,7 +23,7 @@
       .actions {
         position: absolute;
         top: 0;
-        right: 0;
+        right: 15px;
         bottom: 0;
         .publish {
           border-color: rgba(24, 144, 255, 1);
