@@ -1,10 +1,11 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import style from './[id].module.scss';
 import { NextPage, GetServerSideProps } from 'next';
 import * as API from '@/api';
 import Header from '@/modules/header';
 import Prism from 'prismjs';
 import PageLayout from '@/components/pageLayout/pageLayout';
+import Preview from '@/modules/blog/preview';
 import { useRouter } from 'next/router';
 import { getUserState } from '@/services/common/serverSide';
 /**
@@ -47,6 +48,7 @@ interface BlogProps {
 
 const Blog: NextPage<BlogProps> = function (props) {
   const { blog, status } = props;
+  const [previewImage, setPreviewImage] = useState('');
   const router = useRouter();
   useEffect(() => {
     if (status === 'success') {
@@ -55,6 +57,12 @@ const Blog: NextPage<BlogProps> = function (props) {
       router.replace('/');
     }
   }, []);
+  const handleClick = (event: React.MouseEvent<HTMLElement>) => {
+    const target = event.target as HTMLElement;
+    if (target instanceof HTMLImageElement) {
+      setPreviewImage(target.src);
+    }
+  };
   if (status !== 'success') return null;
   const { html, title } = blog;
   return (
@@ -63,9 +71,11 @@ const Blog: NextPage<BlogProps> = function (props) {
       <div className="document shadow bf-container">
         <div
           className="public-DraftEditor-content"
+          onClick={handleClick}
           dangerouslySetInnerHTML={{ __html: html }}
         ></div>
       </div>
+      <Preview src={previewImage} onClosed={() => setPreviewImage('')} />
     </PageLayout>
   );
 };

@@ -47,12 +47,21 @@ const Editor: FunctionComponent<EditorProps> = (props) => {
       },
     });
   }, []);
+  let shouldUpdate = true;
   /**
    * 处理状态更新
    * @param editorState
    */
   const handleEditorStateChange = (editorState: EditorState) => {
-    if (onStateUpdate) onStateUpdate(editorState);
+    // focus与blur事件不需要更新
+    if (onStateUpdate && shouldUpdate) onStateUpdate(editorState);
+    shouldUpdate = true;
+  };
+  const handleBlur = () => {
+    shouldUpdate = false;
+  };
+  const handleFocus = () => {
+    shouldUpdate = false;
   };
   /**
    * 媒体相关配置
@@ -116,6 +125,8 @@ const Editor: FunctionComponent<EditorProps> = (props) => {
           className="document"
           defaultValue={editorState}
           onChange={handleEditorStateChange}
+          onBlur={handleBlur}
+          onFocus={handleFocus}
           excludeControls={excludeControls}
           media={mediaConfig}
           placeholder="开始输入吧！"

@@ -6,7 +6,7 @@ export interface PageLayoutProps extends PropsWithChildren<unknown> {
   className?: string;
 }
 const PageLayout: FunctionComponent<PageLayoutProps> = (props) => {
-  const { docTitle = 'hello world', children, className } = props;
+  const { docTitle = 'Hello World', children, className } = props;
   return (
     <div className={className}>
       <Head>

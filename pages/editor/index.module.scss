@@ -12,10 +12,31 @@
         color: #fff;
         display: flex;
         align-items: center;
+        position: relative;
+        padding: 0 15px;
       }
       .status {
         .status-text {
           margin-left: 5px;
+        }
+      }
+      .actions {
+        position: absolute;
+        top: 0;
+        right: 15px;
+        bottom: 0;
+        .publish {
+          border-color: rgba(24, 144, 255, 1);
+          color: rgba(24, 144, 255, 1);
+          background: none;
+          &:hover {
+            border-color: rgba(24, 144, 255, 0.8);
+            color: rgba(24, 144, 255, 0.8);
+          }
+          &:disabled {
+            border-color: rgba(24, 144, 255, 0.5);
+            color: rgba(24, 144, 255, 0.5);
+          }
         }
       }
     }

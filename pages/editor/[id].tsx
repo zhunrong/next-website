@@ -6,7 +6,7 @@ import { isEditorState } from '@/utils/is';
 import { EditorState } from 'braft-editor';
 import { RawDraftContentState } from 'draft-js';
 import * as API from '@/api/article.api';
-import { message as Message } from 'antd';
+import { message as Message, Button } from 'antd';
 import { debounce } from '@/utils';
 import style from './index.module.scss';
 import { CheckCircleOutlined, LoadingOutlined } from '@ant-design/icons';
@@ -23,6 +23,7 @@ const BraftEditor = memo(
 interface EditorViewProps {
   initRaw: string;
   updateTime: string;
+  draft: DraftEntity;
   status: 'success' | 'error';
 }
 
@@ -30,9 +31,15 @@ interface EditorViewProps {
  * 编辑页面
  */
 const EditorView: NextPage<EditorViewProps> = (props) => {
-  const { initRaw, updateTime: _updateTime, status } = props;
+  const { initRaw, updateTime: _updateTime, status, draft } = props;
+  // 保存loading
   const [loading, setLoading] = useState(false);
+  // 发布loading
+  const [publishLoading, setPublishLoading] = useState(false);
+  // 更新时间
   const [updateTime, setUpdateTime] = useState(_updateTime);
+  // 是否已发布
+  const [isPublished, setIsPublished] = useState(draft?.sync === 1);
   const router = useRouter();
   const id = router.query.id as string;
   useEffect(() => {
@@ -59,6 +66,7 @@ const EditorView: NextPage<EditorViewProps> = (props) => {
           if (!err && data.status === 'success') {
             const updateTime = dayjs(new Date()).format('HH:mm');
             setUpdateTime(updateTime);
+            setIsPublished(false);
           } else {
             Message.error('服务器错误');
           }
@@ -71,9 +79,21 @@ const EditorView: NextPage<EditorViewProps> = (props) => {
    * 处理state更新
    * @param state
    */
-  const handleStateUpdate = (state: EditorState) => {
+  const handleStateUpdate = useCallback((state: EditorState) => {
     setLoading(true);
     saveDraft(state);
+  }, []);
+  /**
+   * 发布
+   */
+  const publish = async () => {
+    setPublishLoading(true);
+    const [, res] = await API.syncDraft(draft.id);
+    setPublishLoading(false);
+    if (res.status === 'success') {
+      setIsPublished(true);
+      Message.success('发布成功');
+    }
   };
   if (status !== 'success') return null;
   return (
@@ -91,6 +111,19 @@ const EditorView: NextPage<EditorViewProps> = (props) => {
               <span className="status-text">最近保存：{updateTime}</span>
             </div>
           )}
+          <div className="actions">
+            <Button
+              type="ghost"
+              shape="round"
+              className="publish"
+              size="small"
+              loading={publishLoading}
+              disabled={isPublished || loading}
+              onClick={publish}
+            >
+              发布
+            </Button>
+          </div>
         </div>
       </div>
       <div className="editor-view-body">
@@ -125,6 +158,7 @@ export const getServerSideProps: GetServerSideProps<EditorViewProps> = async (
       initRaw,
       updateTime,
       status,
+      draft: data.data,
       initialState: state,
     },
   };
