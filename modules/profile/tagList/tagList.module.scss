@@ -1,0 +1,33 @@
+.tag-list {
+  :global {
+    .tag-list-title {
+      font-size: 20px;
+      padding-bottom: 15px;
+      margin-bottom: 30px;
+      border-bottom: 1px solid #ccc;
+    }
+    .tool-bar {
+      margin-bottom: 10px;
+      padding-left: 20px;
+    }
+    .list {
+      li {
+        padding: 20px;
+        border-bottom: 1px dashed #ccc;
+        .name {
+          font-size: 18px;
+          font-weight: 600;
+          line-height: 30px;
+          margin-bottom: 10px;
+        }
+        .relation {
+          font-size: 12px;
+          color: #999;
+          span {
+            margin: 0 5px;
+          }
+        }
+      }
+    }
+  }
+}

@@ -127,3 +127,26 @@ export function syncDraft(id: string) {
     },
   });
 }
+
+/**
+ * 获取博客标签列表
+ */
+export function getTagList() {
+  return http<Data<TagEntity[]>>({
+    url: '/articleTag/list',
+  });
+}
+
+/**
+ * 创建一个标签
+ * @param name
+ */
+export function createTag(name: string) {
+  return http<Data>({
+    url: '/articleTag/create',
+    method: 'post',
+    data: {
+      name,
+    },
+  });
+}

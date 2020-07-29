@@ -59,3 +59,12 @@ interface UploadTokenEntity {
   directory?: string;
   domain: string;
 }
+
+/**
+ * 博客标签
+ */
+interface TagEntity {
+  id: string;
+  name: string;
+  updateTime: string;
+}

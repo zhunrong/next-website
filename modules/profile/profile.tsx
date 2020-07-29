@@ -7,6 +7,7 @@ import dynamic from 'next/dynamic';
 // import UserInfo from './userInfo/userInfo';
 import BlogList from './blogList';
 import DraftList from './draftList';
+import TagList from './tagList/tagList';
 const UserInfo = dynamic(() => import('./userInfo/userInfo'), { ssr: false });
 
 const Profile: FunctionComponent = () => {
@@ -33,6 +34,9 @@ const Profile: FunctionComponent = () => {
           </Tabs.TabPane>
           <Tabs.TabPane tab="草稿列表" key="draft">
             {activeTab === 'draft' && <DraftList />}
+          </Tabs.TabPane>
+          <Tabs.TabPane tab="标签管理" key="tag">
+            {activeTab === 'tag' && <TagList />}
           </Tabs.TabPane>
         </Tabs>
       </div>
