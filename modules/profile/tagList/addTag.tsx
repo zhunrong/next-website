@@ -18,6 +18,8 @@ export const AddTag: FunctionComponent<AddTagProps> = (props) => {
       Message.success('创建成功');
       setShow(false);
       onCreated && onCreated();
+    } else {
+      Message.error(res.message);
     }
   };
   return (

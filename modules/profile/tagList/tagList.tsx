@@ -2,6 +2,8 @@ import React, { FunctionComponent, useEffect, useState } from 'react';
 import style from './tagList.module.scss';
 import * as API from '@/api';
 import AddTag from './addTag';
+import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
+import { Space } from 'antd';
 
 export const TagList: FunctionComponent = () => {
   const [tags, setTags] = useState<TagEntity[]>([]);
@@ -12,6 +14,12 @@ export const TagList: FunctionComponent = () => {
     const [, res] = await API.getTagList();
     if (res.status === 'success') {
       setTags(res.data);
+    }
+  };
+  const removeTag = async (id: string) => {
+    const [, res] = await API.removeTag(id);
+    if (res.status === 'success') {
+      getTagList();
     }
   };
   return (
@@ -28,6 +36,12 @@ export const TagList: FunctionComponent = () => {
               <div className="name">{name}</div>
               <div className="relation">
                 与<span>{name}</span>相关的博客有10篇
+              </div>
+              <div className="btns">
+                <Space>
+                  <EditOutlined />
+                  <DeleteOutlined onClick={() => removeTag(id)} />
+                </Space>
               </div>
             </li>
           );

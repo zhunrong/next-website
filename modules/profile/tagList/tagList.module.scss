@@ -14,6 +14,12 @@
       li {
         padding: 20px;
         border-bottom: 1px dashed #ccc;
+        position: relative;
+        &:hover {
+          .btns {
+            display: block;
+          }
+        }
         .name {
           font-size: 18px;
           font-weight: 600;
@@ -25,6 +31,19 @@
           color: #999;
           span {
             margin: 0 5px;
+          }
+        }
+        .btns {
+          position: absolute;
+          right: 20px;
+          top: 20px;
+          font-size: 16px;
+          display: none;
+          .anticon {
+            cursor: pointer;
+            &:hover {
+              color: #40a9ff;
+            }
           }
         }
       }

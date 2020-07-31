@@ -150,3 +150,17 @@ export function createTag(name: string) {
     },
   });
 }
+
+/**
+ * 删除标签
+ * @param id
+ */
+export function removeTag(id: string) {
+  return http<Data>({
+    url: '/articleTag/delete',
+    method: 'post',
+    data: {
+      id,
+    },
+  });
+}
