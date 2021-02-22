@@ -61,7 +61,7 @@ function Header() {
       }
     })();
   };
-  const content = (
+  const popoverContent = (
     <ul className={style['header-actions']}>
       {isLogined ? (
         <>
@@ -94,11 +94,16 @@ function Header() {
         <Link href="/">
           <a className="header-link">首页</a>
         </Link>
+        {isLogined && (
+          <Link href="/calendar">
+            <a className="header-link">日历</a>
+          </Link>
+        )}
         <Popover
           overlayClassName={style['header-avatar-popover']}
           title={email}
           placement="bottomRight"
-          content={content}
+          content={popoverContent}
         >
           <Avatar
             src={user?.avatar}
